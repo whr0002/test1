@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <!-- We have to indicate that the listview is now a LoadMoreListView -->
+
+    <FrameLayout
+        android:id="@+id/frame1"
+        android:layout_alignParentTop="true"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+         >
+
+        <RelativeLayout
+            android:id="@+id/pageContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <!-- ViewPager是一个控件 -->
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/adv_pager"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp" >
+            </android.support.v4.view.ViewPager>
+
+            <LinearLayout
+                android:id="@+id/viewGroup"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/adv_pager"
+                android:layout_marginTop="-25px"
+                android:gravity="right"
+                android:orientation="horizontal" >
+            </LinearLayout>
+        </RelativeLayout>
+
+        <include
+            android:id="@+id/pagerLoadingIndicator"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            layout="@layout/fullscreen_loading_indicator_grey"
+            android:visibility="gone" >
+        </include>
+
+        <include
+            android:id="@+id/pagerRetryView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            layout="@layout/retry_grey"
+            android:visibility="gone" >
+        </include>
+    </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/frame1"
+        android:background="@color/lightGrey" >
+        
+	    <FrameLayout
+	        android:layout_alignParentTop="true"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent" >
+
+
+
+         <com.costum.android.widget.LoadMoreListView
+            android:id="@+id/android:list"
+            android:visibility="gone"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" 
+            android:dividerHeight="10.0sp"/> 
+
+        <GridView
+            android:id="@+id/gridview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:columnWidth="200dp"
+            android:gravity="center"
+            android:horizontalSpacing="10dp"
+            android:numColumns="auto_fit"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="10dp" />
+
+	    </FrameLayout>
+	    
+	    <!-- <FrameLayout 
+	  		android:id="@+id/botFrame"
+	        android:layout_alignParentBottom="true"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content">
+	        
+	        <com.google.ads.AdView
+	        android:id="@+id/ad"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        
+	        ads:adSize="BANNER"
+	        ads:adUnitId="ca-app-pub-6718707824713684/9583271057"
+	        ads:loadAdOnCreate="true"
+	        ads:testDevices="5E4CA696BEB736E734DD974DD296F11A" />
+	        
+	    </FrameLayout> -->
+        <include
+	        android:id="@+id/listViewLoadingIndicator"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        layout="@layout/fullscreen_loading_indicator"
+	        android:visibility="gone" >
+	    </include>
+	
+	    <include
+	        android:id="@+id/ListViewRetryView"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        layout="@layout/retry"
+	        android:visibility="gone" >
+	    </include>
+    </RelativeLayout>
+
+
+</RelativeLayout>

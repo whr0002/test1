@@ -81,6 +81,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:columnWidth="200dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:gravity="center"
             android:horizontalSpacing="10dp"
             android:numColumns="auto_fit"

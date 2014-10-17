@@ -10,5 +10,6 @@
     <color name="silver">#C0C0C0</color>
     <color name="white">#fafafa</color>
     <color name="lightGrey">#dcd9d2</color>
-    
+    <color name="popularRed">#FF0000</color>
+    <color name="popularOrange">#FFCC00</color>
 </resources>

@@ -28,10 +28,20 @@ public class TipsValidator {
 			Map<String, String> tips = new HashMap<String, String>();
 			tips.put(
 					"1",
-					"Copy your kitty: Learn to do stretching exercises when you wake up. It boosts circulation and digestion, and eases back pain.");
+					"Copy your kitty");
+			
+			tips.put(
+					"Copy your kitty",
+					"Learn to do stretching exercises when you wake up. It boosts circulation and digestion, and eases back pain.");
+			
 			tips.put(
 					"2",
-					"Don¡¯t skip breakfast. Studies show that eating a proper breakfast is one of the most positive things you can do if you are trying to lose weight. Breakfast skippers tend to gain weight. A balanced breakfast includes fresh fruit or fruit juice, a high-fibre breakfast cereal, low-fat milk or yoghurt, wholewheat toast, and a boiled egg.");
+					"Don¡¯t skip breakfast");
+			
+			tips.put(
+					"Don¡¯t skip breakfast",
+					"Studies show that eating a proper breakfast is one of the most positive things you can do if you are trying to lose weight. Breakfast skippers tend to gain weight. A balanced breakfast includes fresh fruit or fruit juice, a high-fibre breakfast cereal, low-fat milk or yoghurt, wholewheat toast, and a boiled egg.");
+			
 			for (String s : tips.keySet()) {
 				tipsEditor.putString(s, tips.get(s));
 			}

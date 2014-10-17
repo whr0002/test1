@@ -283,64 +283,68 @@ public class LoadMore_News extends LoadMore_Base implements
 		int nTips = prefs.getInt("numOfTips", 0);
 		Log.d("debug", "Number of tips is " + String.valueOf(nTips));
 		Log.d("debug", tipsPrefs.getString("1", ""));
+		final int numOfViews = 2;
 
-		View tipView1 = new View(sfa);
-		View tipView2 = new View(sfa);
-		final LayoutInflater inflater = (LayoutInflater) sfa
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		for (int i = 0; i < numOfViews; i++) {
+			View tipView = new View(sfa);
+			// View tipView2 = new View(sfa);
+			final LayoutInflater inflater = (LayoutInflater) sfa
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		tipView1 = inflater.inflate(R.layout.tipsinpager, null, false);
-//		tipView1.setBackgroundResource(myDrawables[rand_1]);
+			tipView = inflater.inflate(R.layout.tipsinpager, null, false);
+			// tipView1.setBackgroundResource(myDrawables[rand_1]);
 
-		ImageView tipImg1 = (ImageView) tipView1.findViewById(R.id.bkg);
-		
-		tipImg1.setImageResource(myDrawables[rand_1]);
-		TextView tip1 = (TextView) tipView1.findViewById(R.id.tip);
-		
-		tip1.setText(tipsPrefs.getString("1", ""));
+			// ImageView tipImg1 = (ImageView) tipView1.findViewById(R.id.bkg);
 
-		// Set up click event
-		tipView1.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// Set the drawer indicator in position "Upcoming Matches"
-				sma.setDrawerIndicator(9);
+			// tipImg1.setImageResource(myDrawables[rand_1]);
+			TextView tipTitle = (TextView) tipView.findViewById(R.id.title);
+			TextView tip = (TextView) tipView.findViewById(R.id.tip);
 
-				// Replacing the current fragment
-				FragmentTransaction ft = getFragmentManager()
-						.beginTransaction();
-				ft.replace(R.id.content_frame, new LoadMore_UpcomingMatch());
-				ft.commit();
-			}
-		});
-		
-		views.add(tipView1);
-		
-		tipView2 = inflater.inflate(R.layout.tipsinpager, null, false);
-//		tipView2.setBackgroundResource(myDrawables[rand_2]);
+			tipTitle.setText(tipsPrefs.getString(Integer.toString(i+1), ""));
+			tip.setText(tipsPrefs.getString(tipsPrefs.getString(Integer.toString(i+1), ""), ""));
 
-		TextView tip2 = (TextView) tipView2.findViewById(R.id.tip);
-		ImageView tipImg2 = (ImageView) tipView2.findViewById(R.id.bkg);
-		
-		tipImg2.setImageResource(myDrawables[rand_2]);
-		tip2.setText(tipsPrefs.getString("2", ""));
+			// Set up click event
+			tipView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					// Set the drawer indicator in position "Upcoming Matches"
+					sma.setDrawerIndicator(9);
 
-		// Set up click event
-		tipView2.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// Set the drawer indicator in position "Upcoming Matches"
-				sma.setDrawerIndicator(9);
+					// Replacing the current fragment
+					FragmentTransaction ft = getFragmentManager()
+							.beginTransaction();
+					ft.replace(R.id.content_frame, new LoadMore_UpcomingMatch());
+					ft.commit();
+				}
+			});
 
-				// Replacing the current fragment
-				FragmentTransaction ft = getFragmentManager()
-						.beginTransaction();
-				ft.replace(R.id.content_frame, new LoadMore_UpcomingMatch());
-				ft.commit();
-			}
-		});
-		
-		views.add(tipView2);
+			views.add(tipView);
+		}
+		// tipView2 = inflater.inflate(R.layout.tipsinpager, null, false);
+		// // tipView2.setBackgroundResource(myDrawables[rand_2]);
+		// TextView tip2Title = (TextView) tipView2.findViewById(R.id.title);
+		// TextView tip2 = (TextView) tipView2.findViewById(R.id.tip);
+		// // ImageView tipImg2 = (ImageView) tipView2.findViewById(R.id.bkg);
+		//
+		// // tipImg2.setImageResource(myDrawables[rand_2]);
+		// tip2.setText(tipsPrefs.getString(tipsPrefs.getString("2", ""),""));
+		//
+		// // Set up click event
+		// tipView2.setOnClickListener(new OnClickListener() {
+		// @Override
+		// public void onClick(View v) {
+		// // Set the drawer indicator in position "Upcoming Matches"
+		// sma.setDrawerIndicator(9);
+		//
+		// // Replacing the current fragment
+		// FragmentTransaction ft = getFragmentManager()
+		// .beginTransaction();
+		// ft.replace(R.id.content_frame, new LoadMore_UpcomingMatch());
+		// ft.commit();
+		// }
+		// });
+		//
+		// views.add(tipView2);
 		// String[] matcharray = matches.toArray(new String[matches.size()]);
 		// String[] resultarray = results.toArray(new String[results.size()]);
 		//

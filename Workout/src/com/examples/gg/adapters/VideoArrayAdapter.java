@@ -31,7 +31,7 @@ import android.widget.TextView;
 import com.examples.gg.data.Video;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
-import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -53,10 +53,16 @@ public class VideoArrayAdapter extends ArrayAdapter<String> {
 	private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
 	private ImageLoader imageLoader;
 
+	private Context mContext;
+
+	private boolean isMenuSet;
+	private ViewHolder holder;
+
 	public VideoArrayAdapter(Context context, ArrayList<String> values,
 			ArrayList<Video> videos, ImageLoader imageLoader) {
 		super(context, R.layout.videolist, values);
 
+		this.mContext = context;
 		this.values = values;
 		this.videos = videos;
 		this.imageLoader = imageLoader;
@@ -65,66 +71,64 @@ public class VideoArrayAdapter extends ArrayAdapter<String> {
 
 		if (!this.imageLoader.isInited()) {
 			// this.imageLoader.init(ImageLoaderConfiguration.createDefault(context));
-			
+
 			HttpParams params = new BasicHttpParams();
-	        // Turn off stale checking. Our connections break all the time anyway,
-	        // and it's not worth it to pay the penalty of checking every time.
-	        HttpConnectionParams.setStaleCheckingEnabled(params, false);
-	        // Default connection and socket timeout of 10 seconds. Tweak to taste.
-	        HttpConnectionParams.setConnectionTimeout(params, 10 * 1000);
-	        HttpConnectionParams.setSoTimeout(params, 10 * 1000);
-	        HttpConnectionParams.setSocketBufferSize(params, 8192);
+			// Turn off stale checking. Our connections break all the time
+			// anyway,
+			// and it's not worth it to pay the penalty of checking every time.
+			HttpConnectionParams.setStaleCheckingEnabled(params, false);
+			// Default connection and socket timeout of 10 seconds. Tweak to
+			// taste.
+			HttpConnectionParams.setConnectionTimeout(params, 10 * 1000);
+			HttpConnectionParams.setSoTimeout(params, 10 * 1000);
+			HttpConnectionParams.setSocketBufferSize(params, 8192);
 
-	        // Don't handle redirects -- return them to the caller. Our code
-	        // often wants to re-POST after a redirect, which we must do ourselves.
-	        HttpClientParams.setRedirecting(params, false);
-	        // Set the specified user agent and register standard protocols.
-	        HttpProtocolParams.setUserAgent(params, "some_randome_user_agent");
-	        SchemeRegistry schemeRegistry = new SchemeRegistry();
-	        schemeRegistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-	        schemeRegistry.register(new Scheme("https", SSLSocketFactory.getSocketFactory(), 443));
+			// Don't handle redirects -- return them to the caller. Our code
+			// often wants to re-POST after a redirect, which we must do
+			// ourselves.
+			HttpClientParams.setRedirecting(params, false);
+			// Set the specified user agent and register standard protocols.
+			HttpProtocolParams.setUserAgent(params, "some_randome_user_agent");
+			SchemeRegistry schemeRegistry = new SchemeRegistry();
+			schemeRegistry.register(new Scheme("http", PlainSocketFactory
+					.getSocketFactory(), 80));
+			schemeRegistry.register(new Scheme("https", SSLSocketFactory
+					.getSocketFactory(), 443));
 
-	        ClientConnectionManager manager = new ThreadSafeClientConnManager(params, schemeRegistry);
+			ClientConnectionManager manager = new ThreadSafeClientConnManager(
+					params, schemeRegistry);
 
-	        File cacheDir = StorageUtils.getCacheDirectory(context);
-	        
-	        ImageLoaderConfiguration config =
-	                new ImageLoaderConfiguration
-	                        .Builder(context)
-	        				.memoryCacheExtraOptions(480, 800)
-	                        .threadPoolSize(3)
-	                        .threadPriority(Thread.NORM_PRIORITY - 1) 
-	                        .tasksProcessingOrder(QueueProcessingType.FIFO)
-	                        .diskCacheFileNameGenerator(new HashCodeFileNameGenerator())
-	                        .diskCache(new UnlimitedDiscCache(cacheDir))
-	                        .memoryCache(new WeakMemoryCache())
-	                        .memoryCacheSizePercentage(13)
-	                        .imageDownloader(new HttpClientImageDownloader(context,new DefaultHttpClient(manager, params)))
-	                        .build();
-	        this.imageLoader.init(config);
+			File cacheDir = StorageUtils.getCacheDirectory(context);
+
+			ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+					context)
+					.memoryCacheExtraOptions(480, 800)
+					.threadPoolSize(3)
+					.threadPriority(Thread.NORM_PRIORITY - 1)
+					.tasksProcessingOrder(QueueProcessingType.FIFO)
+					.diskCacheFileNameGenerator(new HashCodeFileNameGenerator())
+					.diskCache(new UnlimitedDiscCache(cacheDir))
+					.memoryCache(new LruMemoryCache(2 * 1024 * 1024))
+					.memoryCacheSize(2 * 1024 * 1024)
+					.memoryCacheSizePercentage(13)
+					.imageDownloader(
+							new HttpClientImageDownloader(context,
+									new DefaultHttpClient(manager, params)))
+					.build();
+			this.imageLoader.init(config);
 		}
-		// imageLoader=new ImageLoader(context.getApplicationContext());
 
-		// options = new DisplayImageOptions.Builder()
-		// .showStubImage(R.drawable.imageholder2)
-		// .showImageForEmptyUri(R.drawable.imageholder2)
-		// .showImageOnFail(R.drawable.imageholder2).cacheInMemory(true)
-		// .cacheOnDisc(true)
-		// // .displayer(new RoundedBitmapDisplayer(20))
-		// .build();
-		//
 		options = new DisplayImageOptions.Builder()
 				.showImageOnLoading(R.drawable.imageholder3)
 				.showImageForEmptyUri(R.drawable.imageholder3)
-				.showImageOnFail(R.drawable.imageholder3)
-				.cacheInMemory(true)
-				.cacheOnDisk(true).considerExifParams(true)
-				.bitmapConfig(Bitmap.Config.RGB_565).build();
+				.showImageOnFail(R.drawable.imageholder3).cacheInMemory(true)
+				.cacheOnDisk(true).resetViewBeforeLoading(false)
+				.considerExifParams(true).bitmapConfig(Bitmap.Config.RGB_565)
+				.build();
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		ViewHolder holder;
 
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.videolist, parent, false);
@@ -142,6 +146,9 @@ public class VideoArrayAdapter extends ArrayAdapter<String> {
 			// set the author
 			holder.authorView = (TextView) convertView
 					.findViewById(R.id.videouploader);
+
+			holder.menuIcon = (ImageView) convertView
+					.findViewById(R.id.popupIcon);
 
 			convertView.setTag(holder);
 		} else {
@@ -172,6 +179,12 @@ public class VideoArrayAdapter extends ArrayAdapter<String> {
 		}
 		holder.videoLength.setText(videos.get(position).getDuration());
 
+		// If the menu popup listener is not set, set it
+
+		// register a listener for the menu icon
+		holder.menuIcon.setOnClickListener(new MenuIconView(mContext, holder,
+				videos.get(position)));
+
 		imageLoader.displayImage(videos.get(position).getThumbnailUrl(),
 				holder.imageView, options, animateFirstListener);
 
@@ -185,7 +198,7 @@ public class VideoArrayAdapter extends ArrayAdapter<String> {
 		TextView videoLength;
 		ImageView imageView;
 		ImageView watchingIcon;
-
+		ImageView menuIcon;
 	}
 
 	private static class AnimateFirstDisplayListener extends

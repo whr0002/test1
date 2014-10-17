@@ -54,10 +54,10 @@ public class YoutubeActionBarActivity extends SherlockFragmentActivity implement
 		
 		mActionBar = getSupportActionBar();
 		
-		mActionBar.setTitle("Watch a Video");
-
-		mActionBar.setHomeButtonEnabled(true);
-		mActionBar.setDisplayHomeAsUpEnabled(true);
+//		mActionBar.setTitle("Watch a Video");
+//
+//		mActionBar.setHomeButtonEnabled(true);
+//		mActionBar.setDisplayHomeAsUpEnabled(true);
 
 		
 		Intent intent = getIntent();

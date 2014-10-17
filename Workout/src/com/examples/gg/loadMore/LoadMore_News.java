@@ -50,6 +50,7 @@ import com.examples.gg.adapters.VideoArrayAdapter;
 import com.examples.gg.data.MyAsyncTask;
 import com.examples.gg.feedManagers.FeedManager_Subscription;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.rs.app.R;
 import com.rs.app.SideMenuActivity;
 //import org.json.JSONException;
@@ -139,7 +140,9 @@ public class LoadMore_News extends LoadMore_Base implements
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				Intent i = new Intent(sfa, YoutubeActionBarActivity.class);
-				i.putExtra("video", videolist.get(position));
+				i.putExtra("isfullscreen", true);
+//				i.putExtra("video", videolist.get(position));
+				i.putExtra("videoId", videolist.get(position).getVideoId());
 				startActivity(i);
 			}
 		});
@@ -216,6 +219,13 @@ public class LoadMore_News extends LoadMore_Base implements
 		vaa = new VideoArrayAdapter(sfa, titles, videolist, imageLoader);
 		// setListAdapter(vaa);
 		gv.setAdapter(vaa);
+		
+		// reduce lag for gridview
+		boolean pauseOnScroll = false;
+		boolean pauseOnFling = true;
+		PauseOnScrollListener pauseListener= new PauseOnScrollListener(imageLoader, pauseOnScroll, pauseOnFling);
+		gv.setOnScrollListener(pauseListener);
+		
 		// Why check internet here?
 		// if (ic.checkConnection(sfa)) {
 		// if (isMoreVideos) {

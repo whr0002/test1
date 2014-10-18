@@ -57,6 +57,7 @@ public class VideoArrayAdapter extends ArrayAdapter<String> {
 
 	private boolean isMenuSet;
 	protected ViewHolder holder;
+	public boolean isMenuVisible = true;
 
 	public VideoArrayAdapter(Context context, ArrayList<String> values,
 			ArrayList<Video> videos, ImageLoader imageLoader) {
@@ -155,6 +156,11 @@ public class VideoArrayAdapter extends ArrayAdapter<String> {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
+		if(!isMenuVisible){
+			holder.menuIcon.setVisibility(View.GONE);
+		}else{
+			holder.menuIcon.setVisibility(View.VISIBLE);
+		}
 		holder.titleView.setText(values.get(position));
 		holder.authorView.setText(videos.get(position).getAuthor());
 

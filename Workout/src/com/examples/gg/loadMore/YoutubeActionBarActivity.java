@@ -37,7 +37,7 @@ public class YoutubeActionBarActivity extends SherlockFragmentActivity implement
 	private boolean isFullscreenMode;
 	private Activity sfa;
 	private YouTubePlayerSupportFragment fragment;
-	private ActionBar mActionBar;
+//	private ActionBar mActionBar;
 	
 	private static final int LANDSCAPE_ORIENTATION = Build.VERSION.SDK_INT < 9 ? ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 			: ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
@@ -52,7 +52,7 @@ public class YoutubeActionBarActivity extends SherlockFragmentActivity implement
 		sfa = this;
 		
 		
-		mActionBar = getSupportActionBar();
+//		mActionBar = getSupportActionBar();
 		
 //		mActionBar.setTitle("Watch a Video");
 //
@@ -129,9 +129,9 @@ public class YoutubeActionBarActivity extends SherlockFragmentActivity implement
 //        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
         shareIntent.setAction(Intent.ACTION_SEND);
         if (isFullscreenMode){
-        	shareIntent.putExtra(Intent.EXTRA_TEXT, "http://www.youtube.com/watch?v="+videoId+" via @Dota2TV1");
+        	shareIntent.putExtra(Intent.EXTRA_TEXT, "http://www.youtube.com/watch?v="+videoId+" via @wk");
         }else{
-        	shareIntent.putExtra(Intent.EXTRA_TEXT, "http://www.youtube.com/watch?v="+video.getVideoId()+" via @Dota2TV1");
+        	shareIntent.putExtra(Intent.EXTRA_TEXT, "http://www.youtube.com/watch?v="+video.getVideoId()+" via @wk");
         }
         shareIntent.setType("text/plain");
         return shareIntent;
@@ -178,7 +178,7 @@ public class YoutubeActionBarActivity extends SherlockFragmentActivity implement
 				if (fragment.getView() != null) fragment.getView().setLayoutParams(new RelativeLayout.LayoutParams(
 					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 			}
-			mActionBar.hide();
+//			mActionBar.hide();
 		} else {
 			if (title != null)
 				title.setVisibility(TextView.VISIBLE);
@@ -191,7 +191,7 @@ public class YoutubeActionBarActivity extends SherlockFragmentActivity implement
 					LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 			}
 
-			mActionBar.show();
+//			mActionBar.show();
 		}
 	}
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.AsyncTask.Status;
@@ -13,17 +14,22 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.costum.android.widget.LoadMoreListView;
 import com.costum.android.widget.LoadMoreListView.OnLoadMoreListener;
+import com.examples.gg.adapters.EndlessScrollListener;
 import com.examples.gg.adapters.VideoArrayAdapter;
 import com.examples.gg.data.MyAsyncTask;
 import com.examples.gg.data.Video;
@@ -35,12 +41,13 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.rs.app.R;
 
-public class LoadMore_Activity_Base extends SherlockListActivity {
+public class LoadMore_Activity_Base extends SherlockActivity {
 	protected LoadMoreListView myLoadMoreListView;
 	protected ArrayList<String> titles;
 	protected ArrayList<String> videos;
 	protected ArrayList<Video> videolist;
 
+	protected Context mContext;
 	protected boolean isMoreVideos;
 	protected ActionBar ab;
 	protected String abTitle;
@@ -73,13 +80,14 @@ public class LoadMore_Activity_Base extends SherlockListActivity {
 	private DisplayImageOptions options;
 	protected AdView adView;
 	protected boolean hasHeader = true;
+	protected GridView gv;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// Get the current activity
 		setContentView(R.layout.loadmore_list);
-
+		mContext= this.getApplicationContext();
 		// Get loading view
 		fullscreenLoadingView = findViewById(R.id.fullscreen_loading_indicator);
 		adView = (AdView) findViewById(R.id.ad);
@@ -125,8 +133,10 @@ public class LoadMore_Activity_Base extends SherlockListActivity {
 		API.add(recentAPI);
 		// Set action bar title
 		// System.out.println("My title: "+title);
+		gv = (GridView) findViewById(R.id.gridview);
+		setGridViewItemClickListener();
 
-		ab.setTitle("");
+		ab.setTitle(title);
 
 		feedManager = new FeedManager_Base();
 
@@ -147,39 +157,56 @@ public class LoadMore_Activity_Base extends SherlockListActivity {
 
 	}
 
+	protected void setGridViewItemClickListener() {
+
+		gv.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Intent i = new Intent(mContext, YoutubeActionBarActivity.class);
+				i.putExtra("video", videolist.get(position));
+				i.putExtra("isfullscreen", true);
+				i.putExtra("videoId", videolist.get(position).getVideoId());
+				startActivity(i);
+			}
+		});
+		
+	}
+
 	public void setOptionMenu(boolean hasRefresh, boolean hasDropDown) {
 		this.hasRefresh = hasRefresh;
 		this.hasDropDown = hasDropDown;
 	}
 
 	public void setListView() {
-		myLoadMoreListView = (LoadMoreListView) this.getListView();
-		myLoadMoreListView.setDivider(null);
-
-		if (myLoadMoreListView.getHeaderViewsCount() == 0 && hasHeader == true) {
-			View header = (View) getLayoutInflater().inflate(
-					R.layout.titleview, null);
-			myLoadMoreListView.addHeaderView(header, null, false);
-
-			ImageView channelImage = (ImageView) findViewById(R.id.thumbnail);
-			TextView channelName = (TextView) findViewById(R.id.name);
-
-			imageLoader.displayImage(thumbnailUrl, channelImage, options, null);
-			channelName.setText(title);
-
-		}
+//		myLoadMoreListView = (LoadMoreListView) this.getListView();
+//		myLoadMoreListView.setDivider(null);
+//
+//		if (myLoadMoreListView.getHeaderViewsCount() == 0 && hasHeader == true) {
+//			View header = (View) getLayoutInflater().inflate(
+//					R.layout.titleview, null);
+//			myLoadMoreListView.addHeaderView(header, null, false);
+//
+//			ImageView channelImage = (ImageView) findViewById(R.id.thumbnail);
+//			TextView channelName = (TextView) findViewById(R.id.name);
+//
+//			imageLoader.displayImage(thumbnailUrl, channelImage, options, null);
+//			channelName.setText(title);
+//
+//		}
 
 		vaa = new VideoArrayAdapter(this, titles, videolist, imageLoader);
-		setListAdapter(vaa);
+//		setListAdapter(vaa);
+		gv.setAdapter(vaa);
 
 		forceSet();
 		if (isMoreVideos) {
 
 			// there are more videos in the list
 			// set the listener for loading need
-			myLoadMoreListView.setOnLoadMoreListener(new OnLoadMoreListener() {
-				public void onLoadMore() {
+			gv.setOnScrollListener(new EndlessScrollListener() {
 
+				@Override
+				public void onLoadMore(int page, int totalItemsCount) {
 					if (isMoreVideos == true) {
 						// new LoadMoreTask().execute(API.get(0));
 						LoadMoreTask newTask = (LoadMoreTask) new LoadMoreTask(
@@ -188,12 +215,13 @@ public class LoadMore_Activity_Base extends SherlockListActivity {
 						newTask.execute(API.get(API.size() - 1));
 						mLoadMoreTasks.add(newTask);
 					}
-
+					
 				}
+
 			});
 
 		} else {
-			myLoadMoreListView.setOnLoadMoreListener(null);
+			gv.setOnScrollListener(null);
 		}
 
 		// sending Initial Get Request to Youtube
@@ -214,11 +242,10 @@ public class LoadMore_Activity_Base extends SherlockListActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
-		menu.add(0, 0, 0, "Refresh")
+		menu.add(0, 0, 0, "")
 				.setIcon(R.drawable.ic_refresh)
 				.setShowAsAction(
-						MenuItem.SHOW_AS_ACTION_IF_ROOM
-								| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+						MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
 		return true;
 
@@ -238,14 +265,14 @@ public class LoadMore_Activity_Base extends SherlockListActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	@Override
-	public void onListItemClick(ListView l, View v, int position, long id) {
-
-		Intent i = new Intent(this, YoutubeActionBarActivity.class);
-		i.putExtra("video", videolist.get(position - 1));
-		startActivity(i);
-
-	}
+//	@Override
+//	public void onListItemClick(ListView l, View v, int position, long id) {
+//
+//		Intent i = new Intent(this, YoutubeActionBarActivity.class);
+//		i.putExtra("video", videolist.get(position - 1));
+//		startActivity(i);
+//
+//	}
 
 	class LoadMoreTask extends MyAsyncTask {
 
@@ -256,7 +283,7 @@ public class LoadMore_Activity_Base extends SherlockListActivity {
 
 		@Override
 		public void handleCancelView() {
-			((LoadMoreListView) myLoadMoreListView).onLoadMoreComplete();
+//			((LoadMoreListView) myLoadMoreListView).onLoadMoreComplete();
 
 			if (isException) {
 
@@ -327,15 +354,15 @@ public class LoadMore_Activity_Base extends SherlockListActivity {
 
 				// Call onLoadMoreComplete when the LoadMore task, has
 				// finished
-				((LoadMoreListView) myLoadMoreListView).onLoadMoreComplete();
+//				((LoadMoreListView) myLoadMoreListView).onLoadMoreComplete();
 
 				// loading done
 				DisplayView(contentView, retryView, loadingView);
 				if (!isMoreVideos) {
-					((LoadMoreListView) myLoadMoreListView).onNoMoreItems();
-
-					((LoadMoreListView) myLoadMoreListView)
-							.setOnLoadMoreListener(null);
+//					((LoadMoreListView) myLoadMoreListView).onNoMoreItems();
+//
+//					((LoadMoreListView) myLoadMoreListView)
+//							.setOnLoadMoreListener(null);
 				}
 
 			} else {

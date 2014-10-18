@@ -1,12 +1,12 @@
 package com.rs.app;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.examples.gg.data.Tip;
+import com.google.gson.Gson;
 
 public class TipsValidator {
 	private SherlockFragmentActivity mSfa;
@@ -17,42 +17,70 @@ public class TipsValidator {
 	}
 
 	public void Validation() {
-		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(mSfa);
+
 		SharedPreferences tipsPrefs = mSfa.getSharedPreferences("Tips", 0);
 		SharedPreferences.Editor tipsEditor = tipsPrefs.edit();
-		SharedPreferences.Editor prefsEditor = prefs.edit();
-		boolean hasTips = prefs.getBoolean("hasTips", false);
-		if (!hasTips) {
+
+		String json = tipsPrefs.getString("json", "");	
+		if (json.equals("")) {
 			// No Tips stored, storing the tips
-			Map<String, String> tips = new HashMap<String, String>();
-			tips.put(
-					"1",
-					"Copy your kitty");
+			Gson gson = new Gson();
+			ArrayList<Tip> tips = new ArrayList<Tip>();
 			
-			tips.put(
-					"Copy your kitty",
-					"Learn to do stretching exercises when you wake up. It boosts circulation and digestion, and eases back pain.");
+			// Adding tips
+			tips.add(new Tip("Copy your kitty","Learn to do stretching exercises when you wake up. It boosts circulation and digestion, and eases back pain."));
+			tips.add(new Tip("Don＊t skip breakfast","Studies show that eating a proper breakfast is one of the most positive things you can do if you are trying to lose weight. Breakfast skippers tend to gain weight. A balanced breakfast includes fresh fruit or fruit juice, a high-fibre breakfast cereal, low-fat milk or yoghurt, wholewheat toast, and a boiled egg."));
+			tips.add(new Tip("Brush up on hygiene","Many people don't know how to brush their teeth properly. Improper brushing can cause as much damage to the teeth and gums as not brushing at all. Lots of people don＊t brush for long enough, don＊t floss and don＊t see a dentist regularly. Hold your toothbrush in the same way that would hold a pencil, and brush for at least two minutes. This includes brushing the teeth, the junction of the teeth and gums, the tongue and the roof of the mouth. And you don't need a fancy, angled toothbrush 每 just a sturdy, soft-bristled one that you replace each month."));
+			tips.add(new Tip("Neurobics for your mind","Get your brain fizzing with energy. American researchers coined the term ＆neurobics＊ for tasks which activate the brain's own biochemical pathways and to bring new pathways online that can help to strengthen or preserve brain circuits. Brush your teeth with your ＆other＊ hand, take a new route to work or choose your clothes based on sense of touch rather than sight. People with mental agility tend to have lower rates of Alzheimer's disease and age-related mental decline."));
+			tips.add(new Tip("Get what you give!","Always giving and never taking? This is the short road to compassion fatigue. Give to yourself and receive from others, otherwise you＊ll get to a point where you have nothing left to give. And hey, if you can＊t receive from others, how can you expect them to receive from you? Read: Mind aerobics"));
+			tips.add(new Tip("Get spiritual","A study conducted by the formidably sober and scientific Harvard University found that patients who were prayed for recovered quicker than those who weren＊t, even if they weren＊t aware of the prayer."));
+			tips.add(new Tip("Get smelly","Garlic, onions, spring onions and leeks all contain stuff that＊s good for you. A study at the Child＊s Health Institute in Cape Town found that eating raw garlic helped fight serious childhood infections. Heat destroys these properties, so eat yours raw, wash it down with fruit juice or, if you＊re a sissy, have it in tablet form."));
+			tips.add(new Tip("Knock one back","A glass of red wine a day is good for you. A number of studies have found this, but a recent one found that the polyphenols (a type of antioxidant) in green tea, red wine and olives may also help protect you against breast cancer. It＊s thought that the antioxidants help protect you from environmental carcinogens such as passive tobacco smoke."));
+			tips.add(new Tip("Bone up daily","Get your daily calcium by popping a tab, chugging milk or eating yoghurt. It＊ll keep your bones strong. Remember that your bone density declines after the age of 30. You need at least 200 milligrams daily, which you should combine with magnesium, or it simply won＊t be absorbed."));
+			tips.add(new Tip("Berries for your belly","Blueberries, strawberries and raspberries contain plant nutrients known as anthocyanidins, which are powerful antioxidants. Blueberries rival grapes in concentrations of resveratrol 每 the antioxidant compound found in red wine that has assumed near mythological proportions. Resveratrol is believed to help protect against heart disease and cancer."));
+			tips.add(new Tip("Curry favour","Hot, spicy foods containing chillies or cayenne pepper trigger endorphins, the feel-good hormones. Endorphins have a powerful, almost narcotic, effect and make you feel good after exercising. But go easy on the lamb, pork and mutton and the high-fat, creamy dishes served in many Indian restaurants."));
+			tips.add(new Tip("Cut out herbs before ops","Some herbal supplements 每 from the popular St John's Wort and ginkgo biloba to garlic, ginger, ginseng and feverfew 每 can cause increased bleeding during surgery, warn surgeons. It may be wise to stop taking all medication, including herbal supplements, at least two weeks before surgery, and inform your surgeon about your herbal use."));
+			tips.add(new Tip("I say tomato","Tomato is a superstar in the fruit and veggie pantheon. Tomatoes contain lycopene, a powerful cancer fighter. They＊re also rich in vitamin C. The good news is that cooked tomatoes are also nutritious, so use them in pasta, soups and casseroles, as well as in salads. The British Thoracic Society says that tomatoes and apples can reduce your risk of asthma and chronic lung diseases. Both contain the antioxidant quercetin. To enjoy the benefits, eat five apples a week or a tomato every other day."));
+			tips.add(new Tip("Eat your stress away","Prevent low blood sugar as it stresses you out. Eat regular and small healthy meals and keep fruit and veggies handy. Herbal teas will also soothe your frazzled nerves. Eating unrefined carbohydrates, nuts and bananas boosts the formation of serotonin, another feel-good drug. Small amounts of protein containing the amino acid tryptamine can give you a boost when stress tires you out."));
+			tips.add(new Tip("Load up on vitamin C","We need at least 90 mg of vitamin C per day and the best way to get this is by eating at least five servings of fresh fruit and vegetables every day. So hit the oranges and guavas!"));
+			tips.add(new Tip("No folly in folic acid","Folic acid should be taken regularly by all pregnant mums and people with a low immunity to disease. Folic acid prevents spina bifida in unborn babies and can play a role in cancer prevention. It is found in green leafy vegetables, liver, fruit and bran."));
+			tips.add(new Tip("A for Away","This vitamin, and beta carotene, help to boost immunity against disease. It also assists in the healing process of diseases such as measles and is recommended by the WHO. Good natural sources of vitamin A are kidneys, liver, dairy products, green and yellow vegetables, pawpaw, mangoes, chilli pepper, red sorrel and red palm oil."));
+			tips.add(new Tip("Pure water","Don＊t have soft drinks or energy drinks while you're exercising. Stay properly hydrated by drinking enough water during your workout (just don't overdo things, as drinking too much water can also be dangerous). While you might need energy drinks for long-distance running, in shorter exercise sessions in the gym, your body will burn the glucose from the soft drink first, before starting to burn body fat. Same goes for eating sweets."));
+			tips.add(new Tip("GI, Jane","Carbohydrates with a high glycaemic index, such as bread, sugar, honey and grain-based food will give instant energy and accelerate your metabolism. If you＊re trying to burn fat, stick to beans, rice, pasta, lentils, peas, soya beans and oat bran, all of which have a low GI count."));
+			tips.add(new Tip("Mindful living","You've probably heard the old adage that life's too short to stuff a mushroom. But perhaps you should consider the opposite: that life's simply too short NOT to focus on the simple tasks. By slowing down and concentrating on basic things, you'll clear your mind of everything that worries you. Really concentrate on sensations and experiences again: observe the rough texture of a strawberry's skin as you touch it, and taste the sweet-sour juice as you bite into the fruit; when your partner strokes your hand, pay careful attention to the sensation on your skin; and learn to really focus on simple tasks while doing them, whether it's flowering plants or ironing your clothes."));
+			tips.add(new Tip("The secret of stretching","When you stretch, ease your body into position until you feel the stretch and hold it for about 25 seconds. Breathe deeply to help your body move oxygen-rich blood to those sore muscles. Don't bounce or force yourself into an uncomfortable position."));
+			tips.add(new Tip("Do your weights workout first","Experts say weight training should be done first, because it's a higher intensity exercise compared to cardio. Your body is better able to handle weight training early in the workout because you're fresh and you have the energy you need to work it. Conversely, cardiovascular exercise should be the last thing you do at the gym, because it helps your body recover by increasing blood flow to the muscles, and flushing out lactic acid, which builds up in the muscles while you're weight training. It＊s the lactic acid that makes your muscles feel stiff and sore."));
+			tips.add(new Tip("Burn fat during intervals","To improve your fitness quickly and lose weight, harness the joys of interval training. Set the treadmill or step machine on the interval programme, where your speed and workload varies from minute to minute. Build up gradually, every minute and return to the starting speed. Repeat this routine. Not only will it be less monotonous, but you can train for a shorter time and achieve greater results."));
+			tips.add(new Tip("Your dirtiest foot forward","If your ankles, knees, and hips ache from running on pavement, head for the dirt. Soft trails or graded roads are a lot easier on your joints than the hard stuff. Also, dirt surfaces tend to be uneven, forcing you to slow down a bit and focus on where to put your feet 每 great for agility and concentration."));
+			tips.add(new Tip("Burn the boredom, blast the lard","Rev up your metabolism by alternating your speed and intensity during aerobic workouts. Not only should you alternate your routine to prevent burnout or boredom, but to give your body a jolt. If you normally walk at 6.5km/h on the treadmill or take 15 minutes to walk a km, up the pace by going at 8km/h for a minute or so during your workout. Do this every five minutes or so. Each time you work out, increase your bouts of speed in small increments."));
+			tips.add(new Tip("Cool off without a beer","Don＊t eat carbohydrates for at least an hour after exercise. This will force your body to break down body fat, rather than using the food you ingest. Stick to fruit and fluids during that hour, but avoid beer."));
+			tips.add(new Tip("＆Okay, now do 100 of those＊","Instead of flailing away at gym, enlist the help 每 even temporarily 每 of a personal trainer. Make sure you learn to breathe properly and to do the exercises the right way. You＊ll get more of a workout while spending less time at the gym."));
+			tips.add(new Tip("Stop fuming","Don＊t smoke and if you smoke already, do everything in your power to quit. Don＊t buy into that my-granny-smoked-and-lived-to-be-90 crud 每 not even the tobacco giants believe it. Apart from the well-known risks of heart disease and cancer, orthopaedic surgeons have found that smoking accelerates bone density loss and constricts blood flow. So you could live to be a 90-year-old amputee who smells of stale tobacco smoke. Unsexy."));
+			tips.add(new Tip("Ask about Mad Aunt Edith","Find out your family history. You need to know if there are any inherited diseases prowling your gene pool. According to the Mayo Clinic, USA, finding out what your grandparents died of can provide useful 每 even lifesaving 每 information about what＊s in store for you. And be candid, not coy: 25% of the children of alcoholics become alcoholics themselves."));
+			tips.add(new Tip("Do self-checks","Do regular self-examinations of your breasts. Most partners are more than happy to help, not just because breast cancer is the most common cancer among SA women. The best time to examine your breasts is in the week after your period."));
+			tips.add(new Tip("My smear campaign","Have a pap smear once a year. Not on our list of favourite things, but it＊s vital. Cervical cancer kills 200 000 women a year and it＊s the most prevalent form of cancer among black women, affecting more than 30 percent. But the chances of survival are nearly 100 percent if it＊s detected early. Be particularly careful if you became sexually active at an early age, have had multiple sex partners or smoke."));
+			tips.add(new Tip("Understand hormones","Recent research suggests that short-term (less than five years) use of HRT is not associated with an increase in the risk of breast cancer, but that using it for more than ten years might be. Breast cancer is detected earlier in women using HRT, as they are more alert to the disease than other women."));
+			tips.add(new Tip("Beat the sneezes","There are more than 240 allergens, some rare and others very common. If you＊re a sneezer due to pollen: close your car＊s windows while driving, rather switch on the internal fan (drawing in air from the outside), and avoid being outdoors between 5am and 10 am when pollen counts are at their highest; stick to holidays in areas with low pollen counts, such as the seaside and stay away from freshly cut grass."));
+			tips.add(new Tip("Doggone","If you＊re allergic to your cat, dog, budgie or pet piglet, stop suffering the ravages of animal dander: Install an air filter in your home. Keep your pet outside as much as possible and brush him outside of the home to remove loose hair and other allergens. Better yet, ask someone else to do so."));
+			tips.add(new Tip("Asthma-friendly sports","Swimming is the most asthma-friendly sport of all, but cycling, canoeing, fishing, sailing and walking are also good, according to the experts. Asthma need not hinder peak performance in sport. 1% of the US Olympic team were asthmatics 每 and between them they won 41 medals."));
+			tips.add(new Tip("Deep heat","Sun rays can burn even through thick glass, and under water. Up to 35% of UVB rays and 85% of UVA rays penetrate thick glass, while 50% of UVB rays and 75% of UVA rays penetrate a meter of water and wet cotton clothing. Which means you＊ll need sunscreen while driving your car on holiday, and water resistant block if you＊re swimming."));
+			tips.add(new Tip("Fragrant ageing","Stay away from perfumed or flavoured suntan lotions which smell of coconut oil or orange if you want your skin to stay young. These lotions contain psoralen, which speeds up the ageing process. Rather use a fake-tan lotion. Avoid sun beds, which are as bad as the sun itself."));
+			tips.add(new Tip("Sunscreen can be a smokescreen","Sunscreen is unlikely to stop you from being sunburned, or to reduce your risk of developing skin cancer. That＊s because most people don＊t apply it properly, and stay in the sun too long. The solution? Slather on sunscreen daily and reapply it often, especially if you＊ve been in the water. How much? At least enough to fill a shot glass."));
+			tips.add(new Tip("Laugh and cry","Having a good sob is reputed to be good for you. So is laughter, which has been shown to help heal bodies, as well as broken hearts. Studies in Japan indicate that laughter boosts the immune system and helps the body shake off allergic reactions."));
+			tips.add(new Tip("It ain＊t over till it＊s over","End relationships that no longer work for you, as you could be spending time in a dead end. Rather head for more meaningful things. You could be missing opportunities while you＊re stuck in a meaningless rut, trying to breathe life into something that is long gone."));
+			tips.add(new Tip("Strong people go for help","Ask for assistance. Gnashing your teeth in the dark will not get you extra brownie points. It is a sign of strength to ask for assistance and people will respect you for it. If there is a relationship problem, the one who refuses to go for help is usually the one with whom the problem lies to begin with."));
+			tips.add(new Tip("Save steamy scenes for the bedroom","Showering or bathing in water that＊s too hot will dry out your skin and cause it to age prematurely. Warm water is much better. Apply moisturiser while your skin is still damp 每 it＊ll be absorbed more easily. Adding a little olive oil to your bath with help keep your skin moisturised too."));
+			tips.add(new Tip("Here＊s the rub","Improve your circulation and help your lymph glands to drain by the way you towel off. Helping your lymph glands function can help prevent them becoming infected. When drying off your limbs and torso, brush towards the groin on your legs and towards the armpits on your upper body. You can do the same during gentle massage with your partner."));
+			tips.add(new Tip("Sugar-coated","More than three million South Africans suffer from type 2 diabetes, and the incidence is increasing 每 with new patients getting younger. New studies show this type of diabetes is often part of a metabolic syndrome (X Syndrome), which includes high blood pressure and other risk factors for heart disease. More than 80% of type 2 diabetics die of heart disease, so make sure you control your glucose levels, and watch your blood pressure and cholesterol counts."));
+			tips.add(new Tip("Relax, it＊s only sex","Stress and sex make bad bedfellows, it seems. A US survey showed that stress, kids and work are main factors to dampen libido. With the advent of technology that allows us to work from home, the lines between our jobs and our personal lives have become blurred. People work longer hours, commutes are longer and work pervades all aspects of our lives, including our sexual relationships. Put nooky and intimacy on the agenda, just like everything else."));
+			tips.add(new Tip("Good night, sweetheart","Rest heals the body and has been shown to lessen the risk of heart trouble and psychological problems. Read more: 8 Tips for super healthy kids Top 10 tips for managing acne Top 10 beauty tips 10 tips for better sleep"));
+
 			
-			tips.put(
-					"2",
-					"Don＊t skip breakfast");
-			
-			tips.put(
-					"Don＊t skip breakfast",
-					"Studies show that eating a proper breakfast is one of the most positive things you can do if you are trying to lose weight. Breakfast skippers tend to gain weight. A balanced breakfast includes fresh fruit or fruit juice, a high-fibre breakfast cereal, low-fat milk or yoghurt, wholewheat toast, and a boiled egg.");
-			
-			for (String s : tips.keySet()) {
-				tipsEditor.putString(s, tips.get(s));
-			}
 
 			// Commit all tips
+			json = gson.toJson(tips);
+			tipsEditor.putString("json", json);
 			tipsEditor.commit();
-
-			// Save the global boolean to true
-			prefsEditor.putBoolean("hasTips", true);
-			prefsEditor.putInt("numOfTips", tips.size());
-			prefsEditor.commit();
 
 		}
 	}

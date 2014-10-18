@@ -36,6 +36,7 @@ import com.examples.gg.loadMore.LoadMore_News;
 import com.examples.gg.loadMore.LoadMore_Result;
 import com.examples.gg.loadMore.LoadMore_Twitch;
 import com.examples.gg.loadMore.LoadMore_UpcomingMatch;
+import com.examples.gg.loadMore.TipsFragment;
 import com.examples.gg.settings.SettingsActivity;
 import com.google.ads.Ad;
 import com.google.ads.AdListener;
@@ -116,6 +117,8 @@ public class SideMenuActivity extends SherlockFragmentActivity implements
 		
 		items.add(new SectionItem("Lives"));
 		items.add(new EntryItem("Twitch Streams", "Battle begins!",
+				R.drawable.live));
+		items.add(new EntryItem("Healthy Tips", "Make your life better",
 				R.drawable.live));
 
 		items.add(new SectionItem("Match Table"));
@@ -287,22 +290,27 @@ public class SideMenuActivity extends SherlockFragmentActivity implements
 			ft.replace(R.id.content_frame, new FavoritesFragment());
 			break;
 			
-		case 7:
+		case 8:
 			// Twitch section
 			ft.replace(R.id.content_frame, new LoadMore_Twitch());
 			break;
-
+			
 		case 9:
+			// Twitch section
+			ft.replace(R.id.content_frame, new TipsFragment());
+			break;
+
+		case 11:
 			// upcoming section
 			ft.replace(R.id.content_frame, new LoadMore_UpcomingMatch());
 			break;
 
-		case 10:
+		case 12:
 			// result section
 			ft.replace(R.id.content_frame, new LoadMore_Result());
 			break;
 
-		case 12:
+		case 14:
 			// Feedback
 
 			Intent email = new Intent(Intent.ACTION_VIEW);
@@ -312,7 +320,7 @@ public class SideMenuActivity extends SherlockFragmentActivity implements
 			// startActivity(email);
 			break;
 
-		case 13:
+		case 15:
 			// Share Dota2TV
 			Intent sendIntent = new Intent();
 			sendIntent.setAction(Intent.ACTION_SEND);
@@ -325,7 +333,7 @@ public class SideMenuActivity extends SherlockFragmentActivity implements
 			// startActivity(sendIntent);
 			break;
 
-		case 14:
+		case 16:
 			// Rate Dota2TV
 			Intent rateIntent = new Intent(Intent.ACTION_VIEW);
 			// Try Google play

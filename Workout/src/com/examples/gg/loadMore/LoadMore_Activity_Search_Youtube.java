@@ -6,8 +6,10 @@ import java.net.URLEncoder;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -81,12 +83,29 @@ public class LoadMore_Activity_Search_Youtube extends LoadMore_Activity_Search
 		redoRequest(recentAPI, new FeedManager_Search_Youtube());
 	}
 	
+//	@Override
+//	public void onListItemClick(ListView l, View v, int position, long id) {
+//
+//		Intent i = new Intent(this, YoutubeActionBarActivity.class);
+//		i.putExtra("video", videolist.get(position));
+//		startActivity(i);
+//
+//	}
+	
 	@Override
-	public void onListItemClick(ListView l, View v, int position, long id) {
+	protected void setGridViewItemClickListener() {
 
-		Intent i = new Intent(this, YoutubeActionBarActivity.class);
-		i.putExtra("video", videolist.get(position));
-		startActivity(i);
+		gv.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+				Intent i = new Intent(mContext, YoutubeActionBarActivity.class);
+				i.putExtra("video", videolist.get(position));
+				i.putExtra("videoId", videolist.get(position).getVideoId());
+				i.putExtra("isfullscreen",true);
+				startActivity(i);
+			}
+		});
+		
 	}
 }

@@ -23,6 +23,7 @@ import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
@@ -39,7 +40,7 @@ import com.google.ads.AdView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rs.app.R;
 
-public class LoadMore_Base extends SherlockListFragment implements
+public class LoadMore_Base extends SherlockFragment implements
 		ActionBar.OnNavigationListener {
 	protected LoadMoreListView myLoadMoreListView;
 	protected ArrayList<String> titles;
@@ -120,15 +121,7 @@ public class LoadMore_Base extends SherlockListFragment implements
 		API = new ArrayList<String>();
 
 		gv = (GridView) view.findViewById(R.id.gridview);
-		gv.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Intent i = new Intent(sfa,
-						YoutubeActionBarActivity.class);
-				i.putExtra("video", videolist.get(position));
-				startActivity(i);
-			}
-		});
+		setGridViewItemClickListener();
 		// Initializing important variables
 		Initializing();
 
@@ -150,6 +143,19 @@ public class LoadMore_Base extends SherlockListFragment implements
 
 	}
 
+	protected void setGridViewItemClickListener(){
+		gv.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Intent i = new Intent(sfa,
+						YoutubeActionBarActivity.class);
+				i.putExtra("video", videolist.get(position));
+				startActivity(i);
+			}
+		});
+	}
+	
+	
 	protected void forceNoMore() {
 
 	}
@@ -272,11 +278,10 @@ public class LoadMore_Base extends SherlockListFragment implements
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
 		if (hasRefresh)
-			menu.add(0, 0, 0, "Refresh")
+			menu.add(0, 0, 0, "")
 					.setIcon(R.drawable.ic_refresh)
 					.setShowAsAction(
-							MenuItem.SHOW_AS_ACTION_IF_ROOM
-									| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+							MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
 	}
 
@@ -318,22 +323,22 @@ public class LoadMore_Base extends SherlockListFragment implements
 		return true;
 	}
 
-	@Override
-	public void onListItemClick(ListView l, View v, int position, long id) {
-
-		// check network first
-		// if (ic.checkConnection(this.getSherlockActivity())) {
-		// get selected items
-
-		// Toast.makeText(this.getSherlockActivity(), videos.get(position),
-		// Toast.LENGTH_SHORT).show();
-
-		Intent i = new Intent(this.getSherlockActivity(),
-				YoutubeActionBarActivity.class);
-		i.putExtra("video", videolist.get(position));
-		startActivity(i);
-
-	}
+//	@Override
+//	public void onListItemClick(ListView l, View v, int position, long id) {
+//
+//		// check network first
+//		// if (ic.checkConnection(this.getSherlockActivity())) {
+//		// get selected items
+//
+//		// Toast.makeText(this.getSherlockActivity(), videos.get(position),
+//		// Toast.LENGTH_SHORT).show();
+//
+//		Intent i = new Intent(this.getSherlockActivity(),
+//				YoutubeActionBarActivity.class);
+//		i.putExtra("video", videolist.get(position));
+//		startActivity(i);
+//
+//	}
 
 	class LoadMoreTask extends MyAsyncTask {
 
@@ -344,7 +349,7 @@ public class LoadMore_Base extends SherlockListFragment implements
 
 		@Override
 		public void handleCancelView() {
-			((LoadMoreListView) myLoadMoreListView).onLoadMoreComplete();
+//			((LoadMoreListView) myLoadMoreListView).onLoadMoreComplete();
 
 			if (isException) {
 
@@ -553,11 +558,11 @@ public class LoadMore_Base extends SherlockListFragment implements
 	}
 
 	public void setBannerInHeader() {
-		if (myLoadMoreListView.getHeaderViewsCount() == 0) {
-			View header = (View) sfa.getLayoutInflater().inflate(
-					R.layout.banner, null);
-			myLoadMoreListView.addHeaderView(header, null, false);
-
-		}
+//		if (myLoadMoreListView.getHeaderViewsCount() == 0) {
+//			View header = (View) sfa.getLayoutInflater().inflate(
+//					R.layout.banner, null);
+//			myLoadMoreListView.addHeaderView(header, null, false);
+//
+//		}
 	}
 }

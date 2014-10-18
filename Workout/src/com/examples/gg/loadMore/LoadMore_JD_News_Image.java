@@ -15,9 +15,11 @@ import android.os.AsyncTask.Status;
 import android.os.Build;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.costum.android.widget.LoadMoreListView;
@@ -172,15 +174,28 @@ public class LoadMore_JD_News_Image extends LoadMore_Base {
 
 	}
 
+//	@Override
+//	public void onListItemClick(ListView l, View v, int position, long id) {
+//
+//		String url = mNews.get(position).getLink();
+//		Intent i = new Intent(Intent.ACTION_VIEW);
+//		i.setData(Uri.parse(url));
+//		startActivity(i);
+//		// startActivity(Intent.createChooser(i, "Choose a browser"));
+//
+//	}
+	
 	@Override
-	public void onListItemClick(ListView l, View v, int position, long id) {
-
-		String url = mNews.get(position).getLink();
-		Intent i = new Intent(Intent.ACTION_VIEW);
-		i.setData(Uri.parse(url));
-		startActivity(i);
-		// startActivity(Intent.createChooser(i, "Choose a browser"));
-
+	protected void setGridViewItemClickListener(){
+		gv.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				String url = mNews.get(position).getLink();
+				Intent i = new Intent(Intent.ACTION_VIEW);
+				i.setData(Uri.parse(url));
+				startActivity(i);
+			}
+		});
 	}
 
 	@SuppressLint("NewApi")

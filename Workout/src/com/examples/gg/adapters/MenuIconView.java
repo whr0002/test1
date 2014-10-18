@@ -7,7 +7,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -20,8 +19,6 @@ import com.examples.gg.data.Video;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.rs.app.R;
-import com.rs.app.R.id;
-import com.rs.app.R.menu;
 
 public class MenuIconView extends ImageView implements OnClickListener{
 

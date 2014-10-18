@@ -9,12 +9,15 @@ import org.jsoup.select.Elements;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.AsyncTask.Status;
 import android.os.Build;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.costum.android.widget.LoadMoreListView;
 import com.costum.android.widget.LoadMoreListView.OnLoadMoreListener;
@@ -104,18 +107,31 @@ public class LoadMore_Result extends LoadMore_Base {
 
 	}
 
+//	@Override
+//	public void onListItemClick(ListView l, View v, int position, long id) {
+//
+//		// Toast.makeText(this.getSherlockActivity(),
+//		// matchArray.get(position).getGosuLink(), Toast.LENGTH_SHORT)
+//		// .show();
+//
+//		Intent i = new Intent(this.getSherlockActivity(),
+//				MatchDetailsActivity.class);
+//		i.putExtra("match", matchArray.get(position));
+//		startActivity(i);
+//
+//	}
+	
 	@Override
-	public void onListItemClick(ListView l, View v, int position, long id) {
-
-		// Toast.makeText(this.getSherlockActivity(),
-		// matchArray.get(position).getGosuLink(), Toast.LENGTH_SHORT)
-		// .show();
-
-		Intent i = new Intent(this.getSherlockActivity(),
-				MatchDetailsActivity.class);
-		i.putExtra("match", matchArray.get(position));
-		startActivity(i);
-
+	protected void setGridViewItemClickListener(){
+		gv.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Intent i = new Intent(sfa,
+						MatchDetailsActivity.class);
+				i.putExtra("match", matchArray.get(position));
+				startActivity(i);
+			}
+		});
 	}
 
 	@SuppressLint("NewApi")

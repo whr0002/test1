@@ -11,7 +11,9 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -73,56 +75,108 @@ public class LoadMore_Twitch extends LoadMore_Base implements
 
 	}
 
+//	@Override
+//	public void onListItemClick(ListView l, View v, final int position, long id) {
+//
+//		// Getting the preferred player
+//		String preferredPlayer = prefs.getString("preferredPlayer", "-1");
+////		Log.i("debug prefs", preferredPlayer);
+//		final Context mContext = this.getSherlockActivity();
+//		if (preferredPlayer.equals("-1")) {
+//			// No preference
+//			final CharSequence[] colors_radio = {
+//					"New Player(No Flash needed)", "Old Player(Flash needed)" };
+//
+//			new AlertDialog.Builder(this.getSherlockActivity())
+//					.setSingleChoiceItems(colors_radio, 0, null)
+//					.setPositiveButton("Just once",
+//							new DialogInterface.OnClickListener() {
+//								public void onClick(DialogInterface dialog,
+//										int whichButton) {
+//									dialog.dismiss();
+//									int selectedPosition = ((AlertDialog) dialog)
+//											.getListView()
+//											.getCheckedItemPosition();
+//									// Do something useful withe the position of
+//									// the selected radio button
+//									openPlayer(selectedPosition, mContext,
+//											position, false);
+//								}
+//							})
+//					.setNegativeButton("Always",
+//							new DialogInterface.OnClickListener() {
+//								public void onClick(DialogInterface dialog,
+//										int whichButton) {
+//									dialog.dismiss();
+//									int selectedPosition = ((AlertDialog) dialog)
+//											.getListView()
+//											.getCheckedItemPosition();
+//									// Do something useful withe the position of
+//									// the selected radio button
+//									openPlayer(selectedPosition, mContext,
+//											position, true);
+//
+//								}
+//							}).show();
+//		} else {
+//			// Got preferred player
+//			openPlayer(Integer.parseInt(preferredPlayer), mContext, position, false);
+//		}
+//
+//	}
+	
 	@Override
-	public void onListItemClick(ListView l, View v, final int position, long id) {
+	protected void setGridViewItemClickListener(){
+		gv.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+				// Getting the preferred player
+				String preferredPlayer = prefs.getString("preferredPlayer", "-1");
+//				Log.i("debug prefs", preferredPlayer);
+				final Context mContext = sfa;
+				if (preferredPlayer.equals("-1")) {
+					// No preference
+					final CharSequence[] colors_radio = {
+							"New Player(No Flash needed)", "Old Player(Flash needed)" };
 
-		// Getting the preferred player
-		String preferredPlayer = prefs.getString("preferredPlayer", "-1");
-//		Log.i("debug prefs", preferredPlayer);
-		final Context mContext = this.getSherlockActivity();
-		if (preferredPlayer.equals("-1")) {
-			// No preference
-			final CharSequence[] colors_radio = {
-					"New Player(No Flash needed)", "Old Player(Flash needed)" };
+					new AlertDialog.Builder(sfa)
+							.setSingleChoiceItems(colors_radio, 0, null)
+							.setPositiveButton("Just once",
+									new DialogInterface.OnClickListener() {
+										public void onClick(DialogInterface dialog,
+												int whichButton) {
+											dialog.dismiss();
+											int selectedPosition = ((AlertDialog) dialog)
+													.getListView()
+													.getCheckedItemPosition();
+											// Do something useful withe the position of
+											// the selected radio button
+											openPlayer(selectedPosition, mContext,
+													position, false);
+										}
+									})
+							.setNegativeButton("Always",
+									new DialogInterface.OnClickListener() {
+										public void onClick(DialogInterface dialog,
+												int whichButton) {
+											dialog.dismiss();
+											int selectedPosition = ((AlertDialog) dialog)
+													.getListView()
+													.getCheckedItemPosition();
+											// Do something useful withe the position of
+											// the selected radio button
+											openPlayer(selectedPosition, mContext,
+													position, true);
 
-			new AlertDialog.Builder(this.getSherlockActivity())
-					.setSingleChoiceItems(colors_radio, 0, null)
-					.setPositiveButton("Just once",
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int whichButton) {
-									dialog.dismiss();
-									int selectedPosition = ((AlertDialog) dialog)
-											.getListView()
-											.getCheckedItemPosition();
-									// Do something useful withe the position of
-									// the selected radio button
-									openPlayer(selectedPosition, mContext,
-											position, false);
-								}
-							})
-					.setNegativeButton("Always",
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int whichButton) {
-									dialog.dismiss();
-									int selectedPosition = ((AlertDialog) dialog)
-											.getListView()
-											.getCheckedItemPosition();
-									// Do something useful withe the position of
-									// the selected radio button
-									openPlayer(selectedPosition, mContext,
-											position, true);
-
-								}
-							}).show();
-		} else {
-			// Got preferred player
-			openPlayer(Integer.parseInt(preferredPlayer), mContext, position, false);
-		}
-
+										}
+									}).show();
+				} else {
+					// Got preferred player
+					openPlayer(Integer.parseInt(preferredPlayer), mContext, position, false);
+				}
+			}
+		});
 	}
-
 	private boolean check() {
 		PackageManager pm = sfa.getPackageManager();
 		List<PackageInfo> infoList = pm

@@ -25,11 +25,11 @@ import com.rs.app.R.menu;
 
 public class MenuIconView extends ImageView implements OnClickListener{
 
-	private Context mContext;
-	private VideoArrayAdapter.ViewHolder mViewholder;
-	private Video mVideo;
+	protected Context mContext;
+	protected VideoArrayAdapter.ViewHolder mViewholder;
+	protected Video mVideo;
 	
-	private final String prefName = "Favorites";
+	protected final String prefName = "Favorites";
 	
 	public MenuIconView(Context context) {
 		super(context);
@@ -70,7 +70,7 @@ public class MenuIconView extends ImageView implements OnClickListener{
 					"Added!",
 					Toast.LENGTH_SHORT).show();
 					
-					saveData();
+					dealData();
 					break;
 				default:
 					return false;
@@ -83,7 +83,7 @@ public class MenuIconView extends ImageView implements OnClickListener{
 		
 	}
 
-	protected void saveData() {
+	protected void dealData() {
 		Gson gson = new Gson();
 		ArrayList<Video> videos;
 		
@@ -110,7 +110,7 @@ public class MenuIconView extends ImageView implements OnClickListener{
 		}
 	}
 
-	private void checkVideos(){
+	protected void checkVideos(){
 		SharedPreferences fPrefs = mContext.getSharedPreferences(prefName, 0);
 		Type listType = new TypeToken<ArrayList<Video>>(){}.getType();
 		Gson g = new Gson();
@@ -127,7 +127,7 @@ public class MenuIconView extends ImageView implements OnClickListener{
 	}
 	
 	// Check whether the provided video exists in stored videos
-	private boolean isExist(ArrayList<Video> videos, Video aVideo){
+	protected boolean isExist(ArrayList<Video> videos, Video aVideo){
 		for(Video v : videos){
 			if(v.getVideoId().equals(aVideo.getVideoId()))
 				return true;

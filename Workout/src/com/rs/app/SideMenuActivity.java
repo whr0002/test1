@@ -28,6 +28,7 @@ import com.examples.gg.adapters.EntryAdapter;
 import com.examples.gg.data.EntryItem;
 import com.examples.gg.data.Item;
 import com.examples.gg.data.SectionItem;
+import com.examples.gg.loadMore.FavoritesFragment;
 import com.examples.gg.loadMore.LoadMore_H_Subscription;
 import com.examples.gg.loadMore.LoadMore_JD_News_Image;
 import com.examples.gg.loadMore.LoadMore_M_Subscription;
@@ -107,9 +108,12 @@ public class SideMenuActivity extends SherlockFragmentActivity implements
 		items.add(new SectionItem("Latest Videos"));
 		items.add(new EntryItem("Highlights", "Dota excitements",
 				R.drawable.highlights));
+		
 		items.add(new EntryItem("Matches", "You don't wanna miss it",
 				R.drawable.swords));
-
+		items.add(new EntryItem("Favorites", "Great videos",
+				R.drawable.highlights));
+		
 		items.add(new SectionItem("Lives"));
 		items.add(new EntryItem("Twitch Streams", "Battle begins!",
 				R.drawable.live));
@@ -277,7 +281,12 @@ public class SideMenuActivity extends SherlockFragmentActivity implements
 			// Match section
 			ft.replace(R.id.content_frame, new LoadMore_M_Subscription());
 			break;
-
+			
+		case 6:
+			// Favorites section
+			ft.replace(R.id.content_frame, new FavoritesFragment());
+			break;
+			
 		case 7:
 			// Twitch section
 			ft.replace(R.id.content_frame, new LoadMore_Twitch());
@@ -437,12 +446,12 @@ public class SideMenuActivity extends SherlockFragmentActivity implements
 
 	@Override
 	public void onReceiveAd(Ad ad) {
-		Random rand = new Random();
-		if (rand.nextInt(10) > 4) {
-			if (ad == interstitial) {
-				interstitial.show();
-			}
-		}
+//		Random rand = new Random();
+//		if (rand.nextInt(10) > 4) {
+//			if (ad == interstitial) {
+//				interstitial.show();
+//			}
+//		}
 	}
 	
 

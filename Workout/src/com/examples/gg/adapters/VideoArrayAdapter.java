@@ -46,17 +46,17 @@ import com.rs.app.R;
 public class VideoArrayAdapter extends ArrayAdapter<String> {
 
 	private final ArrayList<String> values;
-	private ArrayList<Video> videos;
+	protected ArrayList<Video> videos;
 	private LayoutInflater inflater;
 
 	private DisplayImageOptions options;
 	private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
 	private ImageLoader imageLoader;
 
-	private Context mContext;
+	protected Context mContext;
 
 	private boolean isMenuSet;
-	private ViewHolder holder;
+	protected ViewHolder holder;
 
 	public VideoArrayAdapter(Context context, ArrayList<String> values,
 			ArrayList<Video> videos, ImageLoader imageLoader) {
@@ -182,9 +182,10 @@ public class VideoArrayAdapter extends ArrayAdapter<String> {
 		// If the menu popup listener is not set, set it
 
 		// register a listener for the menu icon
-		holder.menuIcon.setOnClickListener(new MenuIconView(mContext, holder,
-				videos.get(position)));
-
+//		holder.menuIcon.setOnClickListener(new MenuIconView(mContext, holder,
+//				videos.get(position)));
+		setMenuListener(position);
+		
 		imageLoader.displayImage(videos.get(position).getThumbnailUrl(),
 				holder.imageView, options, animateFirstListener);
 
@@ -219,6 +220,12 @@ public class VideoArrayAdapter extends ArrayAdapter<String> {
 				}
 			}
 		}
+	}
+	
+	public void setMenuListener(int pos){
+		holder.menuIcon.setOnClickListener(new MenuIconView(mContext, holder,
+				videos.get(pos)));
+		
 	}
 
 }

@@ -113,22 +113,22 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true" >
 
-            <!-- <ImageView
+             <ImageView
                 android:id="@+id/popupIcon"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:scaleType="centerCrop"
-                android:padding = "10dp"
-                android:src="@drawable/menu_icon2" /> -->
+                android:padding = "3dp"
+                android:src="@drawable/menu_icon2" /> 
                 
-               <com.examples.gg.adapters.MenuIconView
+             <!--   <com.examples.gg.adapters.MenuIconView
                   android:id="@+id/popupIcon"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:scaleType="centerCrop"
                 android:padding = "5dp"
                 android:src="@drawable/menu_icon2"
-               />
+               /> -->
         </RelativeLayout>
     </RelativeLayout>
 

@@ -36,6 +36,9 @@ import com.examples.gg.loadMore.LoadMore_News;
 import com.examples.gg.loadMore.LoadMore_Result;
 import com.examples.gg.loadMore.LoadMore_Twitch;
 import com.examples.gg.loadMore.LoadMore_UpcomingMatch;
+import com.examples.gg.loadMore.LoadMore_WorkoutNews;
+import com.examples.gg.loadMore.PlaylistFragment;
+import com.examples.gg.loadMore.SearchResultFragment;
 import com.examples.gg.loadMore.TipsFragment;
 import com.examples.gg.settings.SettingsActivity;
 import com.google.ads.Ad;
@@ -106,26 +109,71 @@ public class SideMenuActivity extends SherlockFragmentActivity implements
 		items.add(new EntryItem("Latest News", "From JoinDota, Gosugamer",
 				R.drawable.ic_action_news));
 
-		items.add(new SectionItem("Latest Videos"));
-		items.add(new EntryItem("Highlights", "Dota excitements",
+		items.add(new SectionItem("Let's do it"));
+		items.add(new EntryItem("7-minute workout", "",
 				R.drawable.highlights));
 		
-		items.add(new EntryItem("Matches", "You don't wanna miss it",
-				R.drawable.swords));
+		items.add(new SectionItem("Workout Videos"));
+		items.add(new EntryItem("General", "",
+				R.drawable.highlights));
+		items.add(new EntryItem("Abs", "Tone your abs",
+				R.drawable.highlights));
+		items.add(new EntryItem("Arms", "",
+				R.drawable.highlights));
+		items.add(new EntryItem("Back", "",
+				R.drawable.highlights));
+		items.add(new EntryItem("Butt", "",
+				R.drawable.highlights));
+		
+		items.add(new EntryItem("Fat Burning", "",
+				R.drawable.highlights));
+		
+		items.add(new EntryItem("Full Body", "",
+				R.drawable.highlights));
+		
+		items.add(new EntryItem("Jump Rope", "",
+				R.drawable.highlights));
+		
+		items.add(new EntryItem("Legs", "",
+				R.drawable.highlights));
+		
+		items.add(new EntryItem("Strength", "",
+				R.drawable.highlights));
+		
+		items.add(new EntryItem("Stretches", "",
+				R.drawable.highlights));
+		
+		items.add(new EntryItem("Thigh", "",
+				R.drawable.highlights));
+		
+		items.add(new EntryItem("Upper Body", "",
+				R.drawable.highlights));
+		
+		items.add(new EntryItem("Walking", "",
+				R.drawable.highlights));
+		
+		items.add(new EntryItem("Weight Loss", "",
+				R.drawable.highlights));
+		
+		items.add(new EntryItem("Yoga", "",
+				R.drawable.highlights));
+		
+//		items.add(new EntryItem("Matches", "You don't wanna miss it",
+//				R.drawable.swords));
+
+		items.add(new SectionItem("Healthy Life"));
+//		items.add(new EntryItem("Twitch Streams", "Battle begins!",
+//				R.drawable.live));
 		items.add(new EntryItem("Favorites", "Great videos",
 				R.drawable.highlights));
-		
-		items.add(new SectionItem("Lives"));
-		items.add(new EntryItem("Twitch Streams", "Battle begins!",
-				R.drawable.live));
 		items.add(new EntryItem("Healthy Tips", "Make your life better",
 				R.drawable.live));
 
-		items.add(new SectionItem("Match Table"));
-		items.add(new EntryItem("Upcomings", "Matches coming soon!",
-				R.drawable.upcoming));
-		items.add(new EntryItem("Recent Results", "It's in the bag!",
-				R.drawable.list_result));
+//		items.add(new SectionItem("Match Table"));
+//		items.add(new EntryItem("Upcomings", "Matches coming soon!",
+//				R.drawable.upcoming));
+//		items.add(new EntryItem("Recent Results", "It's in the bag!",
+//				R.drawable.list_result));
 
 		// "About" section
 		items.add(new SectionItem("About App"));
@@ -272,22 +320,25 @@ public class SideMenuActivity extends SherlockFragmentActivity implements
 
 		case 2:
 			// Gosu news
-			ft.replace(R.id.content_frame, new LoadMore_JD_News_Image());
+			ft.replace(R.id.content_frame, new LoadMore_WorkoutNews());
 			break;
 
+			// case 3 section divider
+			
 		case 4:
-			// Highlight section
-			ft.replace(R.id.content_frame, new LoadMore_H_Subscription());
+			// 7 minute workout
+			ft.replace(R.id.content_frame, new PlaylistFragment());
 			break;
 
-		case 5:
-			// Match section
-			ft.replace(R.id.content_frame, new LoadMore_M_Subscription());
-			break;
+			// case 5 section divider
 			
 		case 6:
-			// Favorites section
-			ft.replace(R.id.content_frame, new FavoritesFragment());
+			// General section
+			ft.replace(R.id.content_frame, new LoadMore_H_Subscription());
+			break;
+			
+		case 7:
+			ft.replace(R.id.content_frame, new SearchResultFragment("abs workout","Abs"));
 			break;
 			
 		case 8:

@@ -1,5 +1,8 @@
 package com.examples.gg.loadMore;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -13,7 +16,6 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -44,6 +46,9 @@ public class YoutubeActionBarActivity extends SherlockFragmentActivity implement
 
 	private static final int RECOVERY_DIALOG_REQUEST = 1;
 
+	private String mPlaylistID;
+	private ArrayList<Video> mVideoList;
+	private int mPositionOfList;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +68,9 @@ public class YoutubeActionBarActivity extends SherlockFragmentActivity implement
 		Intent intent = getIntent();
 		if (isFullscreenMode = intent.getBooleanExtra("isfullscreen", false)) {
 			videoId = intent.getStringExtra("videoId");
+			mPlaylistID = intent.getStringExtra("playlistID");
+			mVideoList = intent.getParcelableArrayListExtra("videoList");
+			mPositionOfList = intent.getIntExtra("positionOfList", 0);
 			setRequestedOrientation(LANDSCAPE_ORIENTATION);
 
 			setContentView(R.layout.fullscreenyoutube);
@@ -237,7 +245,17 @@ public class YoutubeActionBarActivity extends SherlockFragmentActivity implement
 				if (!wasRestored) {
 					if (isFullscreenMode) {
 						ytp.setFullscreen(true);
-						ytp.loadVideo(videoId);
+						if(mPlaylistID==null){
+							// It's a video
+							ytp.loadVideo(videoId);
+						}else{
+							// A list of videos to play
+							List<String> ids = new ArrayList<String>();
+							for(Video v:mVideoList){
+								ids.add(v.getVideoId());
+							}
+							ytp.loadVideos(ids, mPositionOfList, 0);
+						}
 					} else{
 						ytp.setFullscreen(true);
 						ytp.loadVideo(video.getVideoId());

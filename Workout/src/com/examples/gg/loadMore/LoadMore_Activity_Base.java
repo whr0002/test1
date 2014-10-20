@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -35,6 +36,7 @@ import com.examples.gg.data.MyAsyncTask;
 import com.examples.gg.data.Video;
 import com.examples.gg.feedManagers.FeedManager_Base;
 import com.google.ads.AdView;
+import com.google.android.youtube.player.YouTubeStandalonePlayer;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -81,13 +83,16 @@ public class LoadMore_Activity_Base extends SherlockActivity {
 	protected AdView adView;
 	protected boolean hasHeader = true;
 	protected GridView gv;
+	protected Activity sfa;
+	protected String mPlaylistID;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// Get the current activity
 		setContentView(R.layout.loadmore_list);
-		mContext= this.getApplicationContext();
+		mContext = this.getApplicationContext();
+		sfa = this;
 		// Get loading view
 		fullscreenLoadingView = findViewById(R.id.fullscreen_loading_indicator);
 		adView = (AdView) findViewById(R.id.ad);
@@ -98,6 +103,7 @@ public class LoadMore_Activity_Base extends SherlockActivity {
 		playlistAPI = intent.getStringExtra("PLAYLIST_API");
 		title = intent.getStringExtra("title");
 		thumbnailUrl = intent.getStringExtra("thumbnail");
+		mPlaylistID = intent.getStringExtra("playlistID");
 
 		if (!this.imageLoader.isInited()) {
 			this.imageLoader.init(ImageLoaderConfiguration.createDefault(this));
@@ -161,15 +167,27 @@ public class LoadMore_Activity_Base extends SherlockActivity {
 
 		gv.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Intent i = new Intent(mContext, YoutubeActionBarActivity.class);
-				i.putExtra("video", videolist.get(position));
-				i.putExtra("isfullscreen", true);
-				i.putExtra("videoId", videolist.get(position).getVideoId());
-				startActivity(i);
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// Playlist activity
+				 Intent i = new Intent(mContext,
+				 YoutubeActionBarActivity.class);
+				 i.putExtra("video", videolist.get(position));
+				 i.putExtra("isfullscreen", true);
+				 i.putExtra("videoId", videolist.get(position).getVideoId());
+				 i.putExtra("playlistID", mPlaylistID);
+				 i.putParcelableArrayListExtra("videoList", videolist);
+				 i.putExtra("positionOfList", position);
+				 startActivity(i);
+				// Intent intent =
+				// YouTubeStandalonePlayer.createPlaylistIntent(sfa
+				// , "AIzaSyAuEa3bIKbSYiXVWbHU_zueVzEBv9p2r_Y",
+				// mPlaylistID);
+				// startActivity(intent);
+
 			}
 		});
-		
+
 	}
 
 	public void setOptionMenu(boolean hasRefresh, boolean hasDropDown) {
@@ -178,24 +196,25 @@ public class LoadMore_Activity_Base extends SherlockActivity {
 	}
 
 	public void setListView() {
-//		myLoadMoreListView = (LoadMoreListView) this.getListView();
-//		myLoadMoreListView.setDivider(null);
-//
-//		if (myLoadMoreListView.getHeaderViewsCount() == 0 && hasHeader == true) {
-//			View header = (View) getLayoutInflater().inflate(
-//					R.layout.titleview, null);
-//			myLoadMoreListView.addHeaderView(header, null, false);
-//
-//			ImageView channelImage = (ImageView) findViewById(R.id.thumbnail);
-//			TextView channelName = (TextView) findViewById(R.id.name);
-//
-//			imageLoader.displayImage(thumbnailUrl, channelImage, options, null);
-//			channelName.setText(title);
-//
-//		}
+		// myLoadMoreListView = (LoadMoreListView) this.getListView();
+		// myLoadMoreListView.setDivider(null);
+		//
+		// if (myLoadMoreListView.getHeaderViewsCount() == 0 && hasHeader ==
+		// true) {
+		// View header = (View) getLayoutInflater().inflate(
+		// R.layout.titleview, null);
+		// myLoadMoreListView.addHeaderView(header, null, false);
+		//
+		// ImageView channelImage = (ImageView) findViewById(R.id.thumbnail);
+		// TextView channelName = (TextView) findViewById(R.id.name);
+		//
+		// imageLoader.displayImage(thumbnailUrl, channelImage, options, null);
+		// channelName.setText(title);
+		//
+		// }
 
 		vaa = new VideoArrayAdapter(this, titles, videolist, imageLoader);
-//		setListAdapter(vaa);
+		// setListAdapter(vaa);
 		gv.setAdapter(vaa);
 
 		forceSet();
@@ -215,7 +234,7 @@ public class LoadMore_Activity_Base extends SherlockActivity {
 						newTask.execute(API.get(API.size() - 1));
 						mLoadMoreTasks.add(newTask);
 					}
-					
+
 				}
 
 			});
@@ -242,10 +261,8 @@ public class LoadMore_Activity_Base extends SherlockActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
-		menu.add(0, 0, 0, "")
-				.setIcon(R.drawable.ic_refresh)
-				.setShowAsAction(
-						MenuItem.SHOW_AS_ACTION_IF_ROOM);
+		menu.add(0, 0, 0, "").setIcon(R.drawable.ic_refresh)
+				.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
 		return true;
 
@@ -265,14 +282,14 @@ public class LoadMore_Activity_Base extends SherlockActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-//	@Override
-//	public void onListItemClick(ListView l, View v, int position, long id) {
-//
-//		Intent i = new Intent(this, YoutubeActionBarActivity.class);
-//		i.putExtra("video", videolist.get(position - 1));
-//		startActivity(i);
-//
-//	}
+	// @Override
+	// public void onListItemClick(ListView l, View v, int position, long id) {
+	//
+	// Intent i = new Intent(this, YoutubeActionBarActivity.class);
+	// i.putExtra("video", videolist.get(position - 1));
+	// startActivity(i);
+	//
+	// }
 
 	class LoadMoreTask extends MyAsyncTask {
 
@@ -283,7 +300,7 @@ public class LoadMore_Activity_Base extends SherlockActivity {
 
 		@Override
 		public void handleCancelView() {
-//			((LoadMoreListView) myLoadMoreListView).onLoadMoreComplete();
+			// ((LoadMoreListView) myLoadMoreListView).onLoadMoreComplete();
 
 			if (isException) {
 
@@ -354,15 +371,15 @@ public class LoadMore_Activity_Base extends SherlockActivity {
 
 				// Call onLoadMoreComplete when the LoadMore task, has
 				// finished
-//				((LoadMoreListView) myLoadMoreListView).onLoadMoreComplete();
+				// ((LoadMoreListView) myLoadMoreListView).onLoadMoreComplete();
 
 				// loading done
 				DisplayView(contentView, retryView, loadingView);
 				if (!isMoreVideos) {
-//					((LoadMoreListView) myLoadMoreListView).onNoMoreItems();
-//
-//					((LoadMoreListView) myLoadMoreListView)
-//							.setOnLoadMoreListener(null);
+					// ((LoadMoreListView) myLoadMoreListView).onNoMoreItems();
+					//
+					// ((LoadMoreListView) myLoadMoreListView)
+					// .setOnLoadMoreListener(null);
 				}
 
 			} else {
@@ -408,7 +425,7 @@ public class LoadMore_Activity_Base extends SherlockActivity {
 
 		// check the state of the task
 		cancelAllTask();
-//		hideAllViews();
+		// hideAllViews();
 
 	}
 

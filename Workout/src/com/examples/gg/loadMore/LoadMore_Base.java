@@ -1,5 +1,7 @@
 package com.examples.gg.loadMore;
 
+import io.vov.vitamio.utils.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -149,7 +151,8 @@ public class LoadMore_Base extends SherlockFragment implements
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Intent i = new Intent(sfa,
 						YoutubeActionBarActivity.class);
-				i.putExtra("video", videolist.get(position));
+				i.putExtra("videoId", videolist.get(position).getVideoId());
+				i.putExtra("isfullscreen", true);
 				startActivity(i);
 			}
 		});
@@ -207,33 +210,7 @@ public class LoadMore_Base extends SherlockFragment implements
 
 		vaa = new VideoArrayAdapter(sfa, titles, videolist, imageLoader);
 		gv.setAdapter(vaa);
-//		setListAdapter(vaa);
 
-		// Why check internet here?
-		// if (ic.checkConnection(sfa)) {
-//		if (isMoreVideos) {
-//			// there are more videos in the list
-//			// set the listener for loading need
-//			myLoadMoreListView.setOnLoadMoreListener(new OnLoadMoreListener() {
-//				public void onLoadMore() {
-//					// Do the work to load more items at the end of
-//					// list
-//
-//					if (isMoreVideos == true) {
-//						// new LoadMoreTask().execute(API.get(0));
-//						LoadMoreTask newTask = (LoadMoreTask) new LoadMoreTask(
-//								LoadMoreTask.LOADMORETASK, myLoadMoreListView,
-//								fullscreenLoadingView, mRetryView);
-//						newTask.execute(API.get(API.size() - 1));
-//						mLoadMoreTasks.add(newTask);
-//					}
-//
-//				}
-//			});
-//
-//		} else {
-//			myLoadMoreListView.setOnLoadMoreListener(null);
-//		}
 		if (isMoreVideos) {
 			gv.setOnScrollListener(new EndlessScrollListener(){
 
@@ -391,7 +368,7 @@ public class LoadMore_Base extends SherlockFragment implements
 					feedManager.setmJSON(result);
 
 					List<Video> newVideos = feedManager.getVideoPlaylist();
-
+					Log.d("debug", "size of list: " + newVideos.size());
 					// adding new loaded videos to our current video list
 					for (Video v : newVideos) {
 						// System.out.println("new id: " + v.getVideoId());

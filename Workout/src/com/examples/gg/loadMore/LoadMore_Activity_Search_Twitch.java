@@ -44,7 +44,7 @@ public class LoadMore_Activity_Search_Twitch extends LoadMore_Activity_Search
 		    
 		// encoding the query
 		try {
-			recentAPI = "https://api.twitch.tv/kraken/search/streams?q="+URLEncoder.encode(mQuery,"UTF-8")+"&limit=10";
+			playlistAPI = "https://api.twitch.tv/kraken/search/streams?q="+URLEncoder.encode(mQuery,"UTF-8")+"&limit=10";
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
@@ -52,7 +52,7 @@ public class LoadMore_Activity_Search_Twitch extends LoadMore_Activity_Search
 		
 		// Give API URLs
 		API.clear();
-		API.add(recentAPI);
+		API.add(playlistAPI);
 		
 
 		// set a feed manager
@@ -75,7 +75,7 @@ public class LoadMore_Activity_Search_Twitch extends LoadMore_Activity_Search
 		
 		// encoding the query
 		try {
-			recentAPI = "https://api.twitch.tv/kraken/search/streams?q="+URLEncoder.encode(query,"UTF-8")+"&limit=10";
+			playlistAPI = "https://api.twitch.tv/kraken/search/streams?q="+URLEncoder.encode(query,"UTF-8")+"&limit=10";
 			refreshActivity();
 			
 		} catch (UnsupportedEncodingException e) {
@@ -92,7 +92,7 @@ public class LoadMore_Activity_Search_Twitch extends LoadMore_Activity_Search
 	@Override
 	public void refreshActivity() {
 
-		redoRequest(recentAPI, new FeedManager_Twitch());
+		redoRequest(playlistAPI, new FeedManager_Twitch());
 	}
 	
 //	@Override

@@ -101,7 +101,7 @@ public class MenuIconViewFavorites extends MenuIconView{
 				case R.id.item_favorite:
 					Toast.makeText(
 					mContext,
-					"Removed!",
+					"Removed.",
 					Toast.LENGTH_SHORT).show();
 					
 					dealData();

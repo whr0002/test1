@@ -8,6 +8,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import com.actionbarsherlock.view.MenuItem;
 import com.examples.gg.adapters.EndlessScrollListener;
 import com.examples.gg.adapters.VideoArrayAdapter;
+import com.examples.gg.data.Video;
 
 public class LoadMore_Base_UP extends LoadMore_Base {
 
@@ -33,38 +34,6 @@ public class LoadMore_Base_UP extends LoadMore_Base {
 //		startActivity(i);
 //
 //	}
-	@Override
-	public void setListView() {
-
-		vaa = new VideoArrayAdapter(sfa, titles, videolist, imageLoader);
-		gv.setAdapter(vaa);
-		vaa.isMenuVisible = false;
-		if (isMoreVideos) {
-			gv.setOnScrollListener(new EndlessScrollListener(){
-
-				@Override
-				public void onLoadMore(int page, int totalItemsCount) {
-					// Do the work to load more items at the end of
-					// list
-
-					if (isMoreVideos == true) {
-						LoadMoreTask newTask = (LoadMoreTask) new LoadMoreTask(
-								LoadMoreTask.LOADMORETASK, myLoadMoreListView,
-								fullscreenLoadingView, mRetryView);
-						newTask.execute(API.get(API.size() - 1));
-						mLoadMoreTasks.add(newTask);}}
-					
-				});
-
-		} else {
-			gv.setOnScrollListener(null);
-		}
-		// sending Initial Get Request to Youtube
-		if (!API.isEmpty()) {
-			doRequest();
-		}
-
-	}
 	
 	@Override
 	protected void setGridViewItemClickListener(){
@@ -72,8 +41,10 @@ public class LoadMore_Base_UP extends LoadMore_Base {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				// Putting the current fragment into stack for later call back
-
 				// get the API corresponding to the item selected
+				Video v = videolist.get(position);
+				v.setAsChannel();
+				
 				nextFragmentAPI = videolist.get(position).getRecentVideoUrl();
 				String title = videolist.get(position).getTitle();
 				String url = videolist.get(position).getThumbnailUrl();

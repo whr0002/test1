@@ -18,7 +18,49 @@ public class Video implements Parcelable {
 	public String playlistsUrl;
 
 	public String updateTime;
-
+	
+	public boolean isVideo = false;
+	public boolean isChannel = false;
+	public boolean isPlaylist = false;
+	public boolean isTwitch = false;
+	public boolean isNews = false;
+	
+	public void setAsVideo(){
+		isVideo = true;
+		isChannel = false;
+		isPlaylist = false;
+		isTwitch = false;
+		isNews = false;
+	}
+	public void setAsTwitch(){
+		isVideo = false;
+		isChannel = false;
+		isPlaylist = false;
+		isTwitch = true;
+		isNews = false;
+	}
+	public void setAsNews(){
+		isVideo = false;
+		isChannel = false;
+		isPlaylist = false;
+		isTwitch = false;
+		isNews = true;
+	}
+	
+	public void setAsChannel(){
+		isVideo = false;
+		isChannel = true;
+		isPlaylist = false;
+		isTwitch = false;
+		isNews = false;
+	}
+	public void setAsPlaylist(){
+		isChannel = false;
+		isVideo = false;
+		isPlaylist = true;
+		isTwitch = false;
+		isNews = false;
+	}
 	public String getDuration() {
 		return duration;
 	}

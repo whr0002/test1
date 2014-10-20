@@ -1,15 +1,15 @@
 package com.examples.gg.loadMore;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
+import com.examples.gg.data.Video;
 import com.examples.gg.feedManagers.FeedManager_Base;
 import com.examples.gg.feedManagers.FeedManager_Playlist;
 import com.rs.app.R;
@@ -35,34 +35,6 @@ public class LoadMore_Activity_Channel extends LoadMore_Activity_Base implements
 		ab.setSelectedNavigationItem(currentPosition);
 	}
 
-//	@Override
-//	public void onListItemClick(ListView l, View v, int position, long id) {
-//
-//		// First check it is under which section
-//		switch (section) {
-//		case 0:
-//			// In "Recent"
-//			Intent i = new Intent(this, YoutubeActionBarActivity.class);
-//			i.putExtra("video", videolist.get(position-1));
-//			startActivity(i);
-//			break;
-//
-//		case 1:
-//			// In "Playlists"
-//			Intent i1 = new Intent(this, LoadMore_Activity_Base.class);
-//
-//			i1.putExtra("API", videolist.get(position-1).getRecentVideoUrl());
-//			i1.putExtra("PLAYLIST_API", videolist.get(position-1)
-//					.getPlaylistsUrl());
-//			i1.putExtra("title", videolist.get(position-1).getTitle());
-//			i1.putExtra("thumbnail", videolist.get(position-1)
-//					.getThumbnailUrl());
-//			startActivity(i1);
-//			break;
-//
-//		}
-//
-//	}
 	@Override
 	protected void setGridViewItemClickListener() {
 
@@ -82,11 +54,12 @@ public class LoadMore_Activity_Channel extends LoadMore_Activity_Base implements
 
 				case 1:
 					// In "Playlists"
+					Video v = videolist.get(position);
+					v.setAsPlaylist();
 					Intent i1 = new Intent(mContext, LoadMore_Activity_Base.class);
 
 					i1.putExtra("API", videolist.get(position).getRecentVideoUrl());
-					i1.putExtra("PLAYLIST_API", videolist.get(position)
-							.getPlaylistsUrl());
+					i1.putExtra("playlistID", videolist.get(position).getVideoId());
 					i1.putExtra("title", videolist.get(position).getTitle());
 					i1.putExtra("thumbnail", videolist.get(position)
 							.getThumbnailUrl());
@@ -127,14 +100,14 @@ public class LoadMore_Activity_Channel extends LoadMore_Activity_Base implements
 			// Section "Recent"
 			
 			redoRequest(recentAPI, new FeedManager_Base());
-			vaa.isMenuVisible = true;
+
 		}
 
 		if (section == 1) {
 			// Section "Playlists"
 			
 			redoRequest(playlistAPI, new FeedManager_Playlist());
-			vaa.isMenuVisible = false;
+
 			
 
 		}

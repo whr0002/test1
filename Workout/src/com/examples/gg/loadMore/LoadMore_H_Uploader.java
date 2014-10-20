@@ -14,11 +14,12 @@ public class LoadMore_H_Uploader extends LoadMore_Base_UP {
 				View.VISIBLE);
 
 		// Give a title for the action bar
-		abTitle = "Highlights";
+		abTitle = "General";
 
 		// Give API URLs
-		API.add("https://gdata.youtube.com/feeds/api/users/WK3QT_GLR3y_lSNYSRkMHw/subscriptions?v=2&max-results=10&alt=json");
-
+//		API.add("https://gdata.youtube.com/feeds/api/users/WK3QT_GLR3y_lSNYSRkMHw/subscriptions?v=2&max-results=10&alt=json");
+		API.add("https://gdata.youtube.com/feeds/api/users/p3MSd-qjoZVsORAFFTzwjQ/subscriptions?v=2&max-results=10&alt=json");
+		
 		// initialize the fragments in the Menu
 		FragmentAll = new LoadMore_H_Subscription();
 		FragmentUploader = new LoadMore_H_Uploader();

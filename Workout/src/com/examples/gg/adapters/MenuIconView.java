@@ -62,10 +62,6 @@ public class MenuIconView extends ImageView implements OnClickListener{
 			public boolean onMenuItemClick(android.view.MenuItem item) {
 				switch(item.getItemId()){
 				case R.id.item_favorite:
-					Toast.makeText(
-					mContext,
-					"Added!",
-					Toast.LENGTH_SHORT).show();
 					
 					dealData();
 					break;
@@ -104,6 +100,16 @@ public class MenuIconView extends ImageView implements OnClickListener{
 			String json = gson.toJson(videos);
 			favEditor.putString("json", json);
 			favEditor.commit();
+			
+			Toast.makeText(
+			mContext,
+			"Added.",
+			Toast.LENGTH_SHORT).show();
+		}else{
+			Toast.makeText(
+			mContext,
+			"Already exists.",
+			Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -118,7 +124,7 @@ public class MenuIconView extends ImageView implements OnClickListener{
 		}else{
 			vs = g.fromJson(result, listType);
 		}
-		Log.d("debug", "# of Videos: " + vs.size());
+//		Log.d("debug", "# of Videos: " + vs.size());
 		
 		
 	}

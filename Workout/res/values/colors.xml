@@ -9,7 +9,13 @@
     <color name="red">#FF0000</color>
     <color name="silver">#C0C0C0</color>
     <color name="white">#fafafa</color>
-    <color name="lightGrey">#dcd9d2</color>
+    <color name="lightGrey">#20dcd9d2</color>
     <color name="popularRed">#FF0000</color>
     <color name="popularOrange">#FF9900</color>
+    <color name="popularbluegreen">#097054</color>
+    <color name="popularlightblue">#6599FF</color>
+    <color name="popularlightblueviolet">#443266</color>
+    <color name="popularperiwinklegrey">#C3C3E5</color>
+    <color name="popularazure">#336699</color>
+    <color name="popularlemon">#FFDE00</color>
 </resources>

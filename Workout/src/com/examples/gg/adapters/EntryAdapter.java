@@ -68,9 +68,9 @@ public class EntryAdapter extends ArrayAdapter<Item> {
 
 				if (ei.isChecked()) {
 
-					v.setBackgroundResource(R.color.grey);
-					header.setImageResource(R.color.red);
-
+					v.setBackgroundResource(R.color.lightGrey);
+					header.setImageResource(R.color.popularbluegreen);
+					
 				}
 			}
 		}

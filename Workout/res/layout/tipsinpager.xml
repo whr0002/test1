@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:padding="5dp"
-        android:background="@color/popularRed"
+        android:background="@color/popularbluegreen"
         android:orientation="horizontal" >
 
         <TextView

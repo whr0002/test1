@@ -68,6 +68,7 @@ public class FeedManager_Search_Youtube extends FeedManager_Base{
 				video.setAuthor(author);
 				video.setViewCount(vCount);
 				video.setDuration(convertedDuration);
+				video.setAsVideo();
 				// System.out.println(video.getTitle());
 				// push it to the list
 				videos.add(video);

@@ -53,7 +53,7 @@ public class FeedManager_Uploader extends FeedManager_Base{
 				
 				video.setPlaylistsUrl(playlistsUrl);
 				
-				
+				video.setAsChannel();
 				
 				// push it to the list
 				videos.add(video);

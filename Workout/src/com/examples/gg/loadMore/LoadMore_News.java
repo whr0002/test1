@@ -141,7 +141,6 @@ public class LoadMore_News extends LoadMore_Base implements
 					int position, long id) {
 				Intent i = new Intent(sfa, YoutubeActionBarActivity.class);
 				i.putExtra("isfullscreen", true);
-				// i.putExtra("video", videolist.get(position));
 				i.putExtra("videoId", videolist.get(position).getVideoId());
 				startActivity(i);
 			}
@@ -150,7 +149,9 @@ public class LoadMore_News extends LoadMore_Base implements
 		abTitle = "What's New";
 
 		// Give API URLs
-		API.add("https://gdata.youtube.com/feeds/api/users/cpGJHANGum7tFm0kg6fh7g/newsubscriptionvideos?max-results=10&alt=json");
+//		API.add("https://gdata.youtube.com/feeds/api/users/cpGJHANGum7tFm0kg6fh7g/newsubscriptionvideos?max-results=10&alt=json");
+		API.add("https://gdata.youtube.com/feeds/api/users/p3MSd-qjoZVsORAFFTzwjQ/newsubscriptionvideos?max-results=10&alt=json");
+		
 		// API.add("http://youtube-rss.f-y.name/rss/55590a90-dcb3-11e3-a44f-0401096cca01/?alt=json");
 		// set a feed manager
 		feedManager = new FeedManager_Subscription();
@@ -258,7 +259,7 @@ public class LoadMore_News extends LoadMore_Base implements
 		if (!json.equals("")) {
 
 			final ArrayList<Tip> tips = gson.fromJson(json, listType);
-			Log.d("debug", "Number of tips is " + tips.size());
+//			Log.d("debug", "Number of tips is " + tips.size());
 
 			final int numOfViews = 2;
 			int myRandom = random.nextInt(tips.size() - 1);

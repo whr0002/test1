@@ -48,7 +48,7 @@ public class FeedManager_Playlist extends FeedManager_Base {
 				String updateTime = oneVideo.getJSONObject("updated")
 						.getString("$t");
 
-
+				video.setAsPlaylist();
 				video.setTitle(videoTitle);
 				video.setVideoId(videoId);
 				video.setThumbnailUrl(thumbUrl);

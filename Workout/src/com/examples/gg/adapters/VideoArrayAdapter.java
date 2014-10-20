@@ -55,9 +55,7 @@ public class VideoArrayAdapter extends ArrayAdapter<String> {
 
 	protected Context mContext;
 
-	private boolean isMenuSet;
 	protected ViewHolder holder;
-	public boolean isMenuVisible = true;
 
 	public VideoArrayAdapter(Context context, ArrayList<String> values,
 			ArrayList<Video> videos, ImageLoader imageLoader) {
@@ -156,11 +154,11 @@ public class VideoArrayAdapter extends ArrayAdapter<String> {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		if(!isMenuVisible){
-			holder.menuIcon.setVisibility(View.GONE);
-		}else{
-			holder.menuIcon.setVisibility(View.VISIBLE);
-		}
+		// if(!isMenuVisible){
+		// holder.menuIcon.setVisibility(View.GONE);
+		// }else{
+		// holder.menuIcon.setVisibility(View.VISIBLE);
+		// }
 		holder.titleView.setText(values.get(position));
 		holder.authorView.setText(videos.get(position).getAuthor());
 
@@ -180,7 +178,6 @@ public class VideoArrayAdapter extends ArrayAdapter<String> {
 			holder.countView.setText(videos.get(position).getViewCount());
 
 		} else {
-
 			holder.countView.setText(null);
 		}
 		holder.videoLength.setText(videos.get(position).getDuration());
@@ -188,10 +185,10 @@ public class VideoArrayAdapter extends ArrayAdapter<String> {
 		// If the menu popup listener is not set, set it
 
 		// register a listener for the menu icon
-//		holder.menuIcon.setOnClickListener(new MenuIconView(mContext, holder,
-//				videos.get(position)));
+		// holder.menuIcon.setOnClickListener(new MenuIconView(mContext, holder,
+		// videos.get(position)));
 		setMenuListener(position);
-		
+
 		imageLoader.displayImage(videos.get(position).getThumbnailUrl(),
 				holder.imageView, options, animateFirstListener);
 
@@ -227,11 +224,11 @@ public class VideoArrayAdapter extends ArrayAdapter<String> {
 			}
 		}
 	}
-	
-	public void setMenuListener(int pos){
+
+	public void setMenuListener(int pos) {
 		holder.menuIcon.setOnClickListener(new MenuIconView(mContext, holder,
 				videos.get(pos)));
-		
+
 	}
 
 }

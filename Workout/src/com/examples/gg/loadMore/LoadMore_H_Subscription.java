@@ -8,11 +8,11 @@ public class LoadMore_H_Subscription extends LoadMore_Base {
 	@Override
 	public void Initializing() {
 		// Give a title for the action bar
-		abTitle = "Highlights";
+		abTitle = "General";
 
 		// Give API URLs
-		API.add("https://gdata.youtube.com/feeds/api/users/WK3QT_GLR3y_lSNYSRkMHw/newsubscriptionvideos?max-results=10&alt=json");
-
+//		API.add("https://gdata.youtube.com/feeds/api/users/WK3QT_GLR3y_lSNYSRkMHw/newsubscriptionvideos?max-results=10&alt=json");
+		API.add("https://gdata.youtube.com/feeds/api/users/p3MSd-qjoZVsORAFFTzwjQ/newsubscriptionvideos?max-results=10&alt=json");
 		// initialize the fragments in the Menu
 		FragmentAll = new LoadMore_H_Subscription();
 		FragmentUploader = new LoadMore_H_Uploader();

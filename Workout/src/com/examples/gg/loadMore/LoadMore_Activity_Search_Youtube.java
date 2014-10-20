@@ -34,7 +34,7 @@ public class LoadMore_Activity_Search_Youtube extends LoadMore_Activity_Search
 		    
 		// encoding the query
 		try {
-			recentAPI = "https://gdata.youtube.com/feeds/api/videos?q="+URLEncoder.encode(mQuery,"UTF-8")+"&orderby=relevance&start-index=1&max-results=10&v=2&alt=json";
+			playlistAPI = "https://gdata.youtube.com/feeds/api/videos?q="+URLEncoder.encode(mQuery,"UTF-8")+"&orderby=relevance&start-index=1&max-results=10&v=2&alt=json";
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
@@ -42,7 +42,7 @@ public class LoadMore_Activity_Search_Youtube extends LoadMore_Activity_Search
 		
 		// Give API URLs
 		API.clear();
-		API.add(recentAPI);
+		API.add(playlistAPI);
 		
 
 		// set a feed manager
@@ -63,7 +63,7 @@ public class LoadMore_Activity_Search_Youtube extends LoadMore_Activity_Search
 		
 		// encoding the query
 		try {
-			recentAPI = "https://gdata.youtube.com/feeds/api/videos?q="+URLEncoder.encode(query,"UTF-8")+"&orderby=relevance&start-index=1&max-results=10&v=2&alt=json";
+			playlistAPI = "https://gdata.youtube.com/feeds/api/videos?q="+URLEncoder.encode(query,"UTF-8")+"&orderby=relevance&start-index=1&max-results=10&v=2&alt=json";
 			refreshActivity();
 			
 		} catch (UnsupportedEncodingException e) {
@@ -80,7 +80,7 @@ public class LoadMore_Activity_Search_Youtube extends LoadMore_Activity_Search
 	@Override
 	public void refreshActivity() {
 
-		redoRequest(recentAPI, new FeedManager_Search_Youtube());
+		redoRequest(playlistAPI, new FeedManager_Search_Youtube());
 	}
 	
 //	@Override

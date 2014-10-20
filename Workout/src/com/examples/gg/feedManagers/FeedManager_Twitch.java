@@ -51,6 +51,7 @@ public class FeedManager_Twitch extends FeedManager_Base {
 				video.setVideoDesc(videoDesc);
 				// video.setUpdateTime(updateTime);
 				video.setViewCount(numberOfViewers);
+				video.setAsTwitch();
 
 				// push it to the list
 				videos.add(video);
